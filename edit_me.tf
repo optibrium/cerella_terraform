@@ -8,13 +8,13 @@ terraform {
     bucket  = "<Your S3 terraform backend bucket>"
     key     = "terraform/cerella.tfstate"
     profile = "<Your AWS profile name>"
-    region  = "eu-west-2"
+    region  = "eu-west-1"
   }
 }
 
 provider "aws" {
   profile = "demo"
-  region  = "eu-west-2"
+  region  = "eu-west-1"
 }
 
 module "cerella" {
