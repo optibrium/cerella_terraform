@@ -4,7 +4,7 @@
 #
 
 variable "ingress_cidr" {
-  type = list
+  type = list(string)
 }
 
 variable "hosted-zone-id" {
@@ -46,6 +46,10 @@ variable "eks-instance-type" {
 
 variable "eks-instance-count" {
   default = 3
+}
+
+variable "db-instance-count" {
+  default = 1
 }
 
 variable "right_availability_zone" {
