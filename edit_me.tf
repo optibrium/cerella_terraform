@@ -13,7 +13,7 @@ terraform {
 }
 
 provider "aws" {
-  profile = "demo"
+  profile = "<Your AWS profile name>"
   region  = "eu-west-1"
 }
 
