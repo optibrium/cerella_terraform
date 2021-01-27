@@ -3,11 +3,6 @@
 # @date November 2020
 #
 
-resource "aws_key_pair" "optibrium" {
-  key_name   = "optibrium"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDhJsw7dQ6M1XDQ1w+gW+FSMEpwvKGQkBhpB9Xa66juaFb6t9f7kK1zgnjXxq9Ix58xApFWYB0vSZoZUqqLTDE+O1uwh/Yx+lOhAFMgViwWelvvwG1wjWC/NIKspkqRPlJbZgSZKTDnUTc0jvk7UkP6A+OM0AvjnERod8dMm4ZdtOPQaLQJsuVhccI/IG53uevCGTcNljYkAPNYjypBrSRdHNQ8Ask4CbqJLq0QTlWpURzbwamU9P/bl6SypoDB8UlqRK95USv3ptOsovQnYfwHQ/QNWHAPwpzh+42CfF/BWqcMaDKLiZBSDcIwk1r3oKhmryi1YlC6dgIUzU5sY7INgiHniuyMIkRnfx40M9cS6xCBwn3+DjPioAU9nTCW9UH2Dqz3o1p3UwEvzfTNcdN3SdCf1clb9XrXLFDHYxfvOp324fPooycctVz4GG6CM1GlrIURE9NEL8evBB4uYICNzWduOc57fDLvHqdJJL1FXTcJOsw0d6v2th0Gw9nxXZYyFTeISkCX68l1OPhQILBrKocVR0J8sVTmlqCpd+oxGbFKBDAZSEu74pX6H85OcwaRwZGBOoQk0/VXYHzYZmrQGyVKbAMTpkTbjFOY0W410HvWT4Z2uMCSV3zd4OLpO2WcA4OGvSUkXqhLOMlsc0nfzfm7rfFaYra3pcUEeMp+rw== optibrium.cerella.ai"
-}
-
 resource "aws_iam_role" "control_plane" {
 
   name = "eks_control_plane"
@@ -95,6 +90,27 @@ resource "aws_iam_policy" "S3-access" {
 EOF
 }
 
+resource "aws_iam_policy" "rds-password-access" {
+  name        = "cerella-rds-access"
+  path        = "/"
+  description = "Allow worker nodes to update password"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+          "rds:ModifyDBCluster"
+      ],
+      "Effect": "Allow",
+      "Resource": "${aws_rds_cluster.aaa.arn}"
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_role_policy_attachment" "worker_nodes-AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.worker_nodes.name
@@ -115,7 +131,61 @@ resource "aws_iam_role_policy_attachment" "worker_nodes_s3_access" {
   role       = aws_iam_role.worker_nodes.name
 }
 
+resource "aws_iam_role_policy_attachment" "worker_nodes_rds_access" {
+  policy_arn = aws_iam_policy.rds-password-access.arn
+  role       = aws_iam_role.worker_nodes.name
+}
+
 resource "aws_iam_instance_profile" "worker_nodes" {
   name = "worker_nodes"
   role = aws_iam_role.worker_nodes.name
+}
+
+resource "aws_iam_user" "optibrium" {
+  name = "optibrium"
+  path = "/"
+
+  tags = {
+    Name = "optibrium"
+  }
+}
+
+resource "aws_key_pair" "optibrium" {
+  key_name   = "optibrium"
+  public_key = file("${path.module}/template/ssh_pub.tpl")
+}
+
+resource "aws_iam_access_key" "optibrium" {
+  user    = aws_iam_user.optibrium.name
+  pgp_key = file("${path.module}/template/pgp_pub.b64.tpl")
+}
+
+resource "aws_iam_user_policy" "optibrium" {
+  name = "optibrium-cerella-eks-access"
+  user = aws_iam_user.optibrium.name
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Effect": "Allow",
+          "Action": [
+              "eks:*"
+          ],
+          "Resource": "${aws_eks_cluster.environment.arn}"
+      },
+      {
+          "Effect": "Allow",
+          "Action": "iam:PassRole",
+          "Resource": "*",
+          "Condition": {
+              "StringEquals": {
+                  "iam:PassedToService": "eks.amazonaws.com"
+              }
+          }
+      }
+  ]
+}
+EOF
 }

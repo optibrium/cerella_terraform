@@ -21,7 +21,7 @@ resource "aws_launch_configuration" "workers" {
   key_name                    = "optibrium"
   name_prefix                 = "eks_workers"
   security_groups             = [aws_security_group.worker_nodes.id]
-  user_data                   = file("${path.module}/userdata.tpl")
+  user_data                   = file("${path.module}/template/userdata.tpl")
 
   lifecycle {
     create_before_destroy = true
@@ -52,5 +52,26 @@ resource "aws_autoscaling_group" "workers" {
     key                 = "kubernetes.io/cluster/${var.cluster-name}"
     value               = "owned"
     propagate_at_launch = true
+  }
+}
+
+data "aws_eks_cluster_auth" "environment_auth" {
+  name = var.cluster-name
+}
+
+provider "kubernetes" {
+  host                   = aws_eks_cluster.environment.endpoint
+  cluster_ca_certificate = base64decode(aws_eks_cluster.environment.certificate_authority.0.data)
+  token                  = data.aws_eks_cluster_auth.environment_auth.token
+}
+
+resource "kubernetes_config_map" "aws_auth_configmap" {
+  metadata {
+    name      = "aws-auth"
+    namespace = "kube-system"
+  }
+
+  data = {
+    mapRoles = file("${path.module}/template/aws_auth.yml.tpl")
   }
 }

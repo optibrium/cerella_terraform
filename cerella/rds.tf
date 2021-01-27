@@ -20,9 +20,10 @@ resource "aws_rds_cluster" "aaa" {
   engine                  = "aurora-postgresql"
   engine_version          = "12.4"
   master_username         = "AAA"
-  master_password         = "PLEASEDEARGODCHANGEME"
+  master_password         = "THISWILLBECHANGEDBYATHINGINSIDEKUBERNETES"
   preferred_backup_window = "01:00-03:00"
   skip_final_snapshot     = true
+  storage_encrypted       = true
   vpc_security_group_ids  = [aws_security_group.aaa_db.id]
 }
 
