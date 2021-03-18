@@ -32,6 +32,6 @@ An IAM role granting the worker nodes access to the datasource S3 bucket.
 
 Please create a Route53 Hosted Zone and an S3 bucket within the target account. If you already have a DNS domain or subdomain that you would like to use, it is possible to point NS (DNS Nameserver) records at the NS entries enumerated in the Route53 Hosted Zone.
 
-Please substitute the placeholders in the `edit_me.tf` file, these are enumerated below. If you do not use AWS-Cli configuration profiles, your profile name is `default`, or can be removed entirely. Sadly the EKS-AMI used in the Cerella module is scoped to `EU-WEST-1`, it is advised not to change this yourself, but we can supply alternative AMI-IDs if you require hosting in different regions.
+Please copy the copy_me.tf.example file to a new location and substitute the placeholders. If you do not use AWS-Cli configuration profiles, your profile name is `default`, or can be removed entirely. Sadly the EKS-AMI used in the Cerella module is scoped to `EU-WEST-1`, it is advised not to change this yourself, but we can supply alternative AMI-IDs if you require hosting in different regions.
 
 Please create the resources with Terraform, and return the output to Optibrium Support.

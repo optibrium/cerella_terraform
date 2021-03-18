@@ -19,7 +19,7 @@ provider "aws" {
 
 module "cerella" {
 
-  source             = "./cerella"
+  source             = "git::https://github.com/optibrium/cerella_terraform.git//cerella?ref=v1.0.0"
   hosted-zone-id     = "<Your Hosted Zone ID>"
   domain             = "<Your DNS domain>"
   eks-instance-type  = "<Please contact support>"
