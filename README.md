@@ -8,7 +8,7 @@ There are expected to by minor differences in the installation of a full Cerella
 
 ### Terraform Version
 
-Version `1.1.0` of this repository targets Terraform `0.14.5`
+Version `1.1.1` of this repository targets Terraform `0.14.5`
 
 ### Pre-requisites
 
