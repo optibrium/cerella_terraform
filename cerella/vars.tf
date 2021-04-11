@@ -48,10 +48,6 @@ variable "eks-instance-count" {
   default = 3
 }
 
-variable "db-instance-count" {
-  default = 1
-}
-
 variable "right_availability_zone" {
   default = "eu-west-1a"
   type    = string

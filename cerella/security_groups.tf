@@ -57,24 +57,6 @@ resource "aws_security_group" "ingress" {
   }
 }
 
-resource "aws_security_group" "aaa_db" {
-  description = "Access to the DB from the Worker Nodes"
-  name        = "AAADB"
-  vpc_id      = aws_vpc.environment.id
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    "Name"                                      = var.cluster-name
-    "kubernetes.io/cluster/${var.cluster-name}" = "shared"
-  }
-}
-
 resource "aws_security_group_rule" "office-control-plane-https" {
   cidr_blocks       = var.ingress_cidr
   description       = "Allow user site to communicate with the cluster API Server"
@@ -142,15 +124,5 @@ resource "aws_security_group_rule" "LB-ingress-to-worker-nodes" {
   protocol                 = "tcp"
   security_group_id        = aws_security_group.worker_nodes.id
   to_port                  = var.cluster-ingress-port
-  type                     = "ingress"
-}
-
-resource "aws_security_group_rule" "worker-nodes-to-aaa-db" {
-  source_security_group_id = aws_security_group.worker_nodes.id
-  description              = "Allow worker nodes to communicate with the DB Server"
-  from_port                = 5432
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.worker_nodes.id
-  to_port                  = 5432
   type                     = "ingress"
 }

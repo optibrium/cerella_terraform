@@ -90,27 +90,6 @@ resource "aws_iam_policy" "S3-access" {
 EOF
 }
 
-resource "aws_iam_policy" "rds-password-access" {
-  name        = "cerella-rds-access"
-  path        = "/"
-  description = "Allow worker nodes to update password"
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-          "rds:ModifyDBCluster"
-      ],
-      "Effect": "Allow",
-      "Resource": "${aws_rds_cluster.aaa.arn}"
-    }
-  ]
-}
-EOF
-}
-
 resource "aws_iam_role_policy_attachment" "worker_nodes-AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.worker_nodes.name
@@ -128,11 +107,6 @@ resource "aws_iam_role_policy_attachment" "worker_nodes-AmazonEC2ContainerRegist
 
 resource "aws_iam_role_policy_attachment" "worker_nodes_s3_access" {
   policy_arn = aws_iam_policy.S3-access.arn
-  role       = aws_iam_role.worker_nodes.name
-}
-
-resource "aws_iam_role_policy_attachment" "worker_nodes_rds_access" {
-  policy_arn = aws_iam_policy.rds-password-access.arn
   role       = aws_iam_role.worker_nodes.name
 }
 

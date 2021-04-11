@@ -8,7 +8,7 @@ There are expected to by minor differences in the installation of a full Cerella
 
 ### Terraform Version
 
-Version `1.0.0` of this repository targets Terraform `0.14.5`
+Version `1.1.0` of this repository targets Terraform `0.14.5`
 
 ### Pre-requisites
 
@@ -23,8 +23,6 @@ An AWS VPC is created in the `EU-WEST-1` region. EKS is currently best supported
 A central EKS cluster is created with an Auto-scaling worker node pool.
 
 An ALB with an ACM wildcard SSL certificate, validated using the pre-created Route53 zone, is used to balance HTTPS ingress into the cluster.
-
-An Aurora RDS database is used to store configuration data for the platform.
 
 An IAM role granting the worker nodes access to the datasource S3 bucket.
 

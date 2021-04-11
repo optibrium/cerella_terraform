@@ -10,9 +10,6 @@ ${aws_iam_access_key.optibrium.encrypted_secret}
 How to get Kubeconfig:
 aws eks --region ${var.region} update-kubeconfig --name ${var.cluster-name} --profile <my_profile_created_with_above_keys>
 
-The RDS endpoint:
-postgresql://AAA:THISWILLBECHANGEDBYATHINGINSIDEKUBERNETES@${aws_rds_cluster.aaa.endpoint}/${aws_rds_cluster.aaa.database_name}
-
 OUTPUTFOROPTIBRIUM
 }
 

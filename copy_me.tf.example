@@ -22,6 +22,7 @@ module "cerella" {
   source             = "git::https://github.com/optibrium/cerella_terraform.git//cerella?ref=v1.0.0"
   hosted-zone-id     = "<Your Hosted Zone ID>"
   domain             = "<Your DNS domain>"
+  cluster-name       = "<Please contact support>"
   eks-instance-type  = "<Please contact support>"
   eks-instance-count = "<Please contact support>"
   s3-bucket-id       = "<Your Datasource Bucket ID>"
