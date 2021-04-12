@@ -21,7 +21,7 @@ resource "aws_launch_configuration" "workers" {
   key_name                    = "optibrium"
   name_prefix                 = "eks_workers"
   security_groups             = [aws_security_group.worker_nodes.id]
-  user_data                   = file("${path.module}/template/userdata.tpl")
+  user_data                   = local.eks_worker_userdata
 
   lifecycle {
     create_before_destroy = true
@@ -84,4 +84,20 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
     - system:masters
 AUTH
   }
+}
+
+locals {
+
+  eks_worker_userdata = <<USERDATA
+
+#!/bin/bash
+
+set -o xtrace
+
+# Apply to the controlplane to connect this node to the Kubernetes cluster
+/etc/eks/bootstrap.sh \
+  --apiserver-endpoint '${aws_eks_cluster.environment.endpoint}' \
+  --b64-cluster-ca '${aws_eks_cluster.environment.certificate_authority.0.data}' \
+  '${var.cluster-name}'
+USERDATA
 }
