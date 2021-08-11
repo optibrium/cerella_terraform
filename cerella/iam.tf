@@ -58,38 +58,6 @@ resource "aws_iam_role" "worker_nodes" {
 POLICY
 }
 
-resource "aws_iam_policy" "S3-access" {
-  name        = "cerella-s3-access"
-  path        = "/"
-  description = "Allow access to S3 for seed files"
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-          "s3:ListBucket"
-      ],
-      "Effect": "Allow",
-      "Resource": "*"
-    },
-    {
-      "Action": [
-          "s3:ListBucket",
-          "s3:GetBucketLocation",
-          "s3:GetObject",
-          "s3:GetObjectVersion",
-          "s3:ListObject"
-      ],
-      "Effect": "Allow",
-      "Resource": "arn:aws:s3:::${var.s3-bucket-id}/*"
-    }
-  ]
-}
-EOF
-}
-
 resource "aws_iam_role_policy_attachment" "worker_nodes-AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.worker_nodes.name
@@ -102,11 +70,6 @@ resource "aws_iam_role_policy_attachment" "worker_nodes-AmazonEKS_CNI_Policy" {
 
 resource "aws_iam_role_policy_attachment" "worker_nodes-AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = aws_iam_role.worker_nodes.name
-}
-
-resource "aws_iam_role_policy_attachment" "worker_nodes_s3_access" {
-  policy_arn = aws_iam_policy.S3-access.arn
   role       = aws_iam_role.worker_nodes.name
 }
 

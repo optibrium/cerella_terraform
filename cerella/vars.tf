@@ -11,10 +11,6 @@ variable "hosted-zone-id" {
   type = string
 }
 
-variable "s3-bucket-id" {
-  type = string
-}
-
 variable "domain" {
   type = string
 }
