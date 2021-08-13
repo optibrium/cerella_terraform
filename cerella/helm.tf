@@ -28,6 +28,11 @@ resource "helm_release" "green_zone" {
   version    = var.cerella_version
 
   set {
+    name  = "domain"
+    value = var.domain
+  }
+
+  set {
     name  = "dockerConfigJson"
     value = var.docker_config
   }
