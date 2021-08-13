@@ -8,6 +8,16 @@ variable "cerella_version" {
   default = "0.8.12"
 }
 
+variable "docker_username" {
+  type      = string
+  sensitive = true
+}
+
+variable "docker_password" {
+  type      = string
+  sensitive = true
+}
+
 variable "ingress_cidr" {
   type = list(string)
 }

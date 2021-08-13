@@ -28,6 +28,17 @@ resource "helm_release" "green_zone" {
   version    = var.cerella_version
 
   set {
+    name  = "dockerConfigJson"
+    value = "${base64encode({
+      \"auths\": {
+        \"https://index.docker.io/v1/\": {
+          \"auth\": \"${base64encode(\"${var.docker_username}:${var.docker_password}\")}\"
+        }
+      }
+    })}"
+  }
+
+  set {
     name  = "storage_server.MODEL_DOWNLOAD_TOKEN"
     value = random_password.model_override_token.result
   }
