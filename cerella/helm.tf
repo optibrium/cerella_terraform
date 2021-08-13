@@ -29,13 +29,7 @@ resource "helm_release" "green_zone" {
 
   set {
     name  = "dockerConfigJson"
-    value = "${base64encode({
-      \"auths\": {
-        \"https://index.docker.io/v1/\": {
-          \"auth\": \"${base64encode(\"${var.docker_username}:${var.docker_password}\")}\"
-        }
-      }
-    })}"
+    value = base64encode({ "auths" : { "https://index.docker.io/v1/" : { "auth" : "${base64encode("${var.docker_username}:${var.docker_password}")}" } } })
   }
 
   set {
