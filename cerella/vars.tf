@@ -8,12 +8,7 @@ variable "cerella_version" {
   default = "0.8.12"
 }
 
-variable "docker_username" {
-  type      = string
-  sensitive = true
-}
-
-variable "docker_password" {
+variable "docker_config" {
   type      = string
   sensitive = true
 }

@@ -26,6 +26,7 @@ module "cerella" {
   eks-instance-type  = "<Please contact support>"
   eks-instance-count = "<Please contact support>"
   ingress_cidr       = ["<The client source CIDR>"]
+  docker_config      = "<Please contact support>"
 }
 
 output "config_map_aws_auth" {
