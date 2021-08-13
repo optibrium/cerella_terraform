@@ -3,6 +3,11 @@
 # @date November 2020
 #
 
+variable "cerella_version" {
+  # TODO: Change with v1
+  default = "0.8.12"
+}
+
 variable "ingress_cidr" {
   type = list(string)
 }
