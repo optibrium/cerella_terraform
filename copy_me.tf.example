@@ -19,14 +19,14 @@ provider "aws" {
 
 module "cerella" {
 
-  source             = "git::https://github.com/optibrium/cerella_terraform.git//cerella?ref=v1.1.10"
+  source             = "git::https://github.com/optibrium/cerella_terraform.git//cerella?ref=v1.1.11"
   hosted-zone-id     = "<Your Hosted Zone ID>"
   domain             = "<Your DNS domain>"
   cluster-name       = "<Please contact support>"
   eks-instance-type  = "<Please contact support>"
   eks-instance-count = "<Please contact support>"
-  ingress_cidr       = ["<The client source CIDR>"]
-  docker_config      = "<Please contact support>"
+  ingress-cidr       = ["<The client source CIDR>"]
+  docker-config      = "<Please contact support>"
 }
 
 output "config_map_aws_auth" {

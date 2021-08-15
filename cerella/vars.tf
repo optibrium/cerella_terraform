@@ -3,17 +3,17 @@
 # @date November 2020
 #
 
-variable "cerella_version" {
+variable "cerella-version" {
   # TODO: Change with v1
   default = "0.8.15"
 }
 
-variable "docker_config" {
+variable "docker-config" {
   type      = string
   sensitive = true
 }
 
-variable "ingress_cidr" {
+variable "ingress-cidr" {
   type = list(string)
 }
 
@@ -59,12 +59,12 @@ variable "eks-instance-count" {
   default = 3
 }
 
-variable "right_availability_zone" {
+variable "right-availability-zone" {
   default = "eu-west-1a"
   type    = string
 }
 
-variable "left_availability_zone" {
+variable "left-availability-zone" {
   default = "eu-west-1b"
   type    = string
 }
@@ -74,12 +74,12 @@ variable "cidr" {
   type    = string
 }
 
-variable "right_subnet_cidr" {
+variable "right-subnet-cidr" {
   default = "10.0.1.0/24"
   type    = string
 }
 
-variable "left_subnet_cidr" {
+variable "left-subnet-cidr" {
   default = "10.0.2.0/24"
   type    = string
 }

@@ -25,7 +25,7 @@ resource "helm_release" "ingress" {
   name       = "ingress"
   repository = "http://helm.cerella.ai"
   chart      = "cerella_ingress"
-  version    = var.cerella_version
+  version    = var.cerella-version
   timeout    = 600
 
   set {
@@ -43,7 +43,7 @@ resource "helm_release" "green_zone" {
   name       = "green"
   repository = "http://helm.cerella.ai"
   chart      = "cerella_green"
-  version    = var.cerella_version
+  version    = var.cerella-version
 
   set {
     name  = "domain"
@@ -52,7 +52,7 @@ resource "helm_release" "green_zone" {
 
   set {
     name  = "dockerConfigJson"
-    value = var.docker_config
+    value = var.docker-config
   }
 
   set {
