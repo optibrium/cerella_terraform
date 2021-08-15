@@ -89,6 +89,8 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
     - system:masters
 AUTH
   }
+
+  depends_on = [aws_eks_cluster.environment]
 }
 
 locals {

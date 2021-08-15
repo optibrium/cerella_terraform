@@ -26,6 +26,7 @@ resource "helm_release" "ingress" {
   repository = "http://helm.cerella.ai"
   chart      = "cerella_ingress"
   version    = var.cerella-version
+  depends_on = [aws_eks_cluster.environment]
   timeout    = 600
 
   set {
@@ -44,23 +45,25 @@ resource "helm_release" "green_zone" {
   repository = "http://helm.cerella.ai"
   chart      = "cerella_green"
   version    = var.cerella-version
+  depends_on = [aws_eks_cluster.environment]
+  timeout    = 600
 
   set {
     name  = "domain"
     value = var.domain
   }
 
-  set {
+  set_sensitive {
     name  = "dockerConfigJson"
     value = var.docker-config
   }
 
-  set {
+  set_sensitive {
     name  = "storage_server.MODEL_DOWNLOAD_TOKEN"
     value = random_password.model_override_token.result
   }
 
-  set {
+  set_sensitive {
     # TODO: change with v1
     name  = "aaa.POSTGRES_PASSWORD"
     value = random_password.aaa_database_password.result
