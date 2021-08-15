@@ -6,6 +6,7 @@
 resource "aws_eks_cluster" "environment" {
   name     = var.cluster-name
   role_arn = aws_iam_role.control_plane.arn
+  version  = var.eks_version
 
   vpc_config {
     security_group_ids = [aws_security_group.control_plane.id]

@@ -21,6 +21,24 @@ resource "random_password" "aaa_database_password" {
   special = true
 }
 
+resource "helm_release" "ingress" {
+  name       = "ingress"
+  repository = "http://helm.cerella.ai"
+  chart      = "cerella_ingress"
+  version    = var.cerella_version
+  timeout    = 600
+
+  set {
+    name  = "domain"
+    value = var.domain
+  }
+
+  set {
+    name  = "aws.ingressPort"
+    value = var.cluster-ingress-port
+  }
+}
+
 resource "helm_release" "green_zone" {
   name       = "green"
   repository = "http://helm.cerella.ai"

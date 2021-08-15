@@ -5,7 +5,7 @@
 
 variable "cerella_version" {
   # TODO: Change with v1
-  default = "0.8.12"
+  default = "0.8.15"
 }
 
 variable "docker_config" {
@@ -40,8 +40,13 @@ variable "region" {
   type    = string
 }
 
+variable "eks-version" {
+  default = "1.20"
+  type    = string
+}
+
 variable "eks-ami" {
-  default = "ami-098fb7e9b507904e7"
+  default = "ami-031de2a4db6a7880f"
   type    = string
 }
 
