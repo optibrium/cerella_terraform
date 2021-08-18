@@ -5,7 +5,7 @@
 
 variable "cerella-version" {
   # TODO: Change with v1
-  default = "0.8.15"
+  default = "0.8.19"
 }
 
 variable "docker-config" {

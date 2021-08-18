@@ -27,7 +27,6 @@ resource "helm_release" "ingress" {
   chart      = "cerella_ingress"
   version    = var.cerella-version
   depends_on = [aws_eks_cluster.environment]
-  timeout    = 600
 
   set {
     name  = "domain"
@@ -46,7 +45,11 @@ resource "helm_release" "green_zone" {
   chart      = "cerella_green"
   version    = var.cerella-version
   depends_on = [aws_eks_cluster.environment]
-  timeout    = 600
+
+  # The Green Zone contains Alchemite, which will not
+  # come up healthy at first, as there will not be any
+  # models yet. Waiting for health means apply will fail.
+  wait       = false
 
   set {
     name  = "domain"
