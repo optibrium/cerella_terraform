@@ -34,8 +34,13 @@ resource "helm_release" "ingress" {
   }
 
   set {
-    name  = "aws.ingressPort"
+    name  = "aws.ingressport"
     value = var.cluster-ingress-port
+  }
+
+  set {
+    name  = "aws.ingressPodCount"
+    value = var.eks-instance-count
   }
 }
 
