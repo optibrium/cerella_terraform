@@ -5,7 +5,7 @@
 
 resource "aws_iam_role" "control_plane" {
 
-  name = "eks_control_plane"
+  name = "eks_control_plane-${var.cluster-name}"
 
   assume_role_policy = <<POLICY
 {
@@ -40,7 +40,7 @@ resource "aws_iam_role_policy_attachment" "control_plane-AmazonEKS_CNI_Policy" {
 
 resource "aws_iam_role" "worker_nodes" {
 
-  name = "worker_nodes"
+  name = "worker_nodes_${var.cluster-name}"
 
   assume_role_policy = <<POLICY
 {
@@ -74,6 +74,6 @@ resource "aws_iam_role_policy_attachment" "worker_nodes-AmazonEC2ContainerRegist
 }
 
 resource "aws_iam_instance_profile" "worker_nodes" {
-  name = "worker_nodes"
+  name = "worker_nodes_${var.cluster-name}"
   role = aws_iam_role.worker_nodes.name
 }

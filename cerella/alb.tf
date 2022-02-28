@@ -36,7 +36,7 @@ resource "aws_alb_listener" "https_to_workers" {
 }
 
 resource "aws_alb_target_group" "workers" {
-  name     = "eks-workers"
+  name     = "eks-workers-${var.cluster-name}"
   port     = var.cluster-ingress-port
   protocol = "HTTP"
   vpc_id   = aws_vpc.environment.id

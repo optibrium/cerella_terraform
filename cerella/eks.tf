@@ -40,7 +40,7 @@ resource "aws_autoscaling_group" "workers" {
   launch_configuration      = aws_launch_configuration.workers.id
   max_size                  = 7
   min_size                  = 3
-  name                      = "worker_nodes"
+  name                      = "worker_nodes-${var.cluster-name}"
   vpc_zone_identifier       = [aws_subnet.left.id, aws_subnet.right.id]
 
   tag {
