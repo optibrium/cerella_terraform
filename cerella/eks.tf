@@ -1,11 +1,12 @@
 #
 # @author GDev
-# @date November 2020
+# @date Feb 2022
 #
 
 resource "aws_eks_cluster" "environment" {
   name     = var.cluster-name
   role_arn = aws_iam_role.control_plane.arn
+  version  = var.eks-version
 
   vpc_config {
     security_group_ids = [aws_security_group.control_plane.id]
@@ -18,7 +19,7 @@ resource "aws_launch_configuration" "workers" {
   iam_instance_profile        = aws_iam_instance_profile.worker_nodes.name
   image_id                    = var.eks-ami
   instance_type               = var.eks-instance-type
-  key_name                    = "optibrium"
+  key_name                    = "cerella-${var.cluster-name}"
   name_prefix                 = "eks_workers"
   security_groups             = [aws_security_group.worker_nodes.id]
   user_data                   = local.eks_worker_userdata
@@ -53,6 +54,10 @@ resource "aws_autoscaling_group" "workers" {
     value               = "owned"
     propagate_at_launch = true
   }
+
+  lifecycle {
+    ignore_changes = [load_balancers, target_group_arns]
+  }
 }
 
 data "aws_eks_cluster_auth" "environment_auth" {
@@ -78,12 +83,10 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
   groups:
     - system:bootstrappers
     - system:nodes
-- userarn: ${aws_iam_user.optibrium.arn}
-  username: kubectl-access-user
-  groups:
-    - system:masters
 AUTH
   }
+
+  depends_on = [aws_eks_cluster.environment]
 }
 
 locals {
@@ -100,4 +103,9 @@ set -o xtrace
   --b64-cluster-ca '${aws_eks_cluster.environment.certificate_authority.0.data}' \
   '${var.cluster-name}'
 USERDATA
+}
+
+resource "aws_key_pair" "cerella_ssh_key" {
+  key_name   = "cerella-${var.cluster-name}"
+  public_key = file("${path.module}/template/ssh_pub.tpl")
 }

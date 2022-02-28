@@ -1,6 +1,6 @@
 #
 # @author GDev
-# @date November 2020
+# @date November 2021
 #
 
 resource "aws_security_group" "worker_nodes" {
@@ -40,7 +40,7 @@ resource "aws_security_group" "control_plane" {
 }
 
 resource "aws_security_group" "ingress" {
-  description = "entry via the LB"
+  description = "entry via the ALB"
   name        = "ingress"
   vpc_id      = aws_vpc.environment.id
 
@@ -57,9 +57,9 @@ resource "aws_security_group" "ingress" {
   }
 }
 
-resource "aws_security_group_rule" "office-control-plane-https" {
-  cidr_blocks       = var.ingress_cidr
-  description       = "Allow user site to communicate with the cluster API Server"
+resource "aws_security_group_rule" "control-plane-https" {
+  cidr_blocks       = var.ingress-cidr
+  description       = "Access to the cluster API Server"
   from_port         = 443
   protocol          = "tcp"
   security_group_id = aws_security_group.control_plane.id
@@ -67,9 +67,9 @@ resource "aws_security_group_rule" "office-control-plane-https" {
   type              = "ingress"
 }
 
-resource "aws_security_group_rule" "office-workers-ssh" {
-  cidr_blocks       = var.ingress_cidr
-  description       = "Allow office to communicate with the worker nodes"
+resource "aws_security_group_rule" "workers-ssh" {
+  cidr_blocks       = var.ingress-cidr
+  description       = "SSH into the worker nodes"
   from_port         = 22
   protocol          = "tcp"
   security_group_id = aws_security_group.worker_nodes.id
@@ -77,9 +77,9 @@ resource "aws_security_group_rule" "office-workers-ssh" {
   type              = "ingress"
 }
 
-resource "aws_security_group_rule" "office-https-to-LB" {
-  cidr_blocks       = var.ingress_cidr
-  description       = "Allows HTTPS access to the LB"
+resource "aws_security_group_rule" "https-through-LB" {
+  cidr_blocks       = var.ingress-cidr
+  description       = "Allows HTTPS access to the K8s cluster through the LB"
   from_port         = 443
   protocol          = "tcp"
   security_group_id = aws_security_group.ingress.id

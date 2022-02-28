@@ -1,19 +1,11 @@
-locals {
-  output_for_optibrium = <<OUTPUTFOROPTIBRIUM
+#
+# @author GDev
+# @date November 2021
+#
 
-AccessKeys:
-- Public Key / Access key:
-${aws_iam_access_key.optibrium.id}
-- Secret Key (Note the secret key is encrypted with the PGP key embedded in iam_user.tf)
-${aws_iam_access_key.optibrium.encrypted_secret}
-
+output "how_to_get_kubectl" {
+  value = <<OUTPUT
 How to get Kubeconfig:
-aws eks --region ${var.region} update-kubeconfig --name ${var.cluster-name} --profile <my_profile_created_with_above_keys>
-
-OUTPUTFOROPTIBRIUM
+aws eks --region ${var.region} update-kubeconfig --name ${var.cluster-name} --profile <my_profile_used_by_terraform>
+OUTPUT
 }
-
-output "output_for_optibrium" {
-  value = "\n\nPLEASE PROVIDE THIS TO OPTIBRIUM\n\n${base64encode(local.output_for_optibrium)}"
-}
-

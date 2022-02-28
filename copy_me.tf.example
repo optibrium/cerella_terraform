@@ -26,8 +26,19 @@ module "cerella" {
   eks-instance-type  = "<Please contact support>"
   eks-instance-count = "<Please contact support>"
   ingress_cidr       = ["<The client source CIDR>"]
+
+  registry_username  = "${var.registry_username}"
+  registry_password  = "${var.registry_password}"
 }
 
-output "config_map_aws_auth" {
-  value = module.cerella.output_for_optibrium
+variable "registry_username" {
+  type = string
+}
+
+variable "registry_password" {
+  type = string
+}
+
+output "how_to_get_kubectl" {
+  value = module.cerella.how_to_get_kubectl
 }

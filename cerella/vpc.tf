@@ -1,6 +1,6 @@
 #
 # @author GDev
-# @date November 2020
+# @date November 2021
 #
 
 resource "aws_vpc" "environment" {
@@ -15,8 +15,8 @@ resource "aws_vpc" "environment" {
 
 resource "aws_subnet" "left" {
 
-  availability_zone = var.left_availability_zone
-  cidr_block        = var.left_subnet_cidr
+  availability_zone = var.left-availability-zone
+  cidr_block        = var.left-subnet-cidr
   vpc_id            = aws_vpc.environment.id
 
   tags = {
@@ -27,8 +27,8 @@ resource "aws_subnet" "left" {
 
 resource "aws_subnet" "right" {
 
-  availability_zone = var.right_availability_zone
-  cidr_block        = var.right_subnet_cidr
+  availability_zone = var.right-availability-zone
+  cidr_block        = var.right-subnet-cidr
   vpc_id            = aws_vpc.environment.id
 
   tags = {

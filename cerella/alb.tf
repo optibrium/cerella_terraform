@@ -1,7 +1,15 @@
 #
 # @author GDev
-# @date November 2020
+# @date November 2021
 #
+
+resource "aws_route53_record" "star" {
+  name    = "*.${var.domain}"
+  records = [aws_lb.ingress.dns_name]
+  type    = "CNAME"
+  ttl     = "5"
+  zone_id = var.hosted-zone-id
+}
 
 resource "aws_lb" "ingress" {
   internal           = false
@@ -9,6 +17,7 @@ resource "aws_lb" "ingress" {
   name               = var.cluster-name
   security_groups    = [aws_security_group.ingress.id]
   subnets            = [aws_subnet.left.id, aws_subnet.right.id]
+  idle_timeout       = 300
 }
 
 resource "aws_alb_listener" "https_to_workers" {
@@ -22,6 +31,8 @@ resource "aws_alb_listener" "https_to_workers" {
     target_group_arn = aws_alb_target_group.workers.arn
     type             = "forward"
   }
+
+  depends_on = [aws_alb_target_group.workers]
 }
 
 resource "aws_alb_target_group" "workers" {
@@ -32,6 +43,6 @@ resource "aws_alb_target_group" "workers" {
 }
 
 resource "aws_autoscaling_attachment" "workers" {
-  alb_target_group_arn   = aws_alb_target_group.workers.arn
+  lb_target_group_arn    = aws_alb_target_group.workers.arn
   autoscaling_group_name = aws_autoscaling_group.workers.id
 }

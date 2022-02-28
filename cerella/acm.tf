@@ -1,15 +1,7 @@
 #
 # @author GDev
-# @date November 2020
+# @date November 2021
 #
-
-resource "aws_route53_record" "star" {
-  name    = "*.${var.domain}"
-  records = [aws_lb.ingress.dns_name]
-  type    = "CNAME"
-  ttl     = "5"
-  zone_id = var.hosted-zone-id
-}
 
 resource "aws_acm_certificate" "star" {
   domain_name               = var.domain
