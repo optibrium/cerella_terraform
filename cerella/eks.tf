@@ -70,6 +70,8 @@ provider "kubernetes" {
   token                  = data.aws_eks_cluster_auth.environment_auth.token
 }
 
+data "aws_caller_identity" "current" {}
+
 resource "kubernetes_config_map" "aws_auth_configmap" {
   metadata {
     name      = "aws-auth"
@@ -83,6 +85,10 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
   groups:
     - system:bootstrappers
     - system:nodes
+- rolearn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSControlTowerExecution"
+  username: ControlTowerAccess
+  groups:
+    - system:masters
 AUTH
   }
 
