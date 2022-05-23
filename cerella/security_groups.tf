@@ -126,3 +126,13 @@ resource "aws_security_group_rule" "LB-ingress-to-worker-nodes" {
   to_port                  = var.cluster-ingress-port
   type                     = "ingress"
 }
+
+resource "aws_security_group_rule" "cluster-sg-to-worker-nodes" {
+  source_security_group_id = aws_security_group.control_plane.id
+  description              = "Allow EKS cluster to forward traffic to the workers"
+  from_port                = 0
+  protocol                 = -1
+  security_group_id        = aws_security_group.worker_nodes.id
+  to_port                  = 0
+  type                     = "ingress"
+}
