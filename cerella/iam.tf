@@ -42,22 +42,19 @@ resource "aws_iam_role" "worker_nodes" {
 
   name = "worker_nodes_${var.cluster-name}"
 
-  assume_role_policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-POLICY
-}
+  assume_role_policy = data.aws_iam_policy_document.d_workers.json
 
+}
+data "aws_iam_policy_document" "d_workers" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
 resource "aws_iam_role_policy_attachment" "worker_nodes-AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.worker_nodes.name
@@ -76,4 +73,58 @@ resource "aws_iam_role_policy_attachment" "worker_nodes-AmazonEC2ContainerRegist
 resource "aws_iam_instance_profile" "worker_nodes" {
   name = "worker_nodes_${var.cluster-name}"
   role = aws_iam_role.worker_nodes.name
+}
+
+data "aws_iam_policy_document" "worker_nodes_describe_tags" {
+  statement {
+    actions = ["ec2:DescribeTags"]
+
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy" "ec2_describe_tags" {
+  name_prefix = "eks-worker-tags-"
+  role        = aws_iam_role.worker_nodes.id
+  policy      = data.aws_iam_policy_document.worker_nodes_describe_tags.json
+}
+
+data "aws_iam_policy_document" "worker_nodes_cluster_autoscaler_action" {
+  statement {
+    actions = [
+      "autoscaling:SetDesiredCapacity",
+      "autoscaling:TerminateInstanceInAutoScalingGroup",
+    ]
+
+    resources = [
+      aws_autoscaling_group.std_workers.arn,
+      "*",
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "ec2_cluster_autoscaler_action" {
+  name_prefix = "eks-worker-autoscaler-action-"
+  role        = aws_iam_role.worker_nodes.id
+  policy      = data.aws_iam_policy_document.worker_nodes_cluster_autoscaler_action.json
+}
+
+data "aws_iam_policy_document" "worker_nodes_cluster_autoscaler_describe" {
+  statement {
+    actions = [
+      "autoscaling:DescribeAutoScalingGroups",
+      "autoscaling:DescribeAutoScalingInstances",
+      "autoscaling:DescribeTags",
+      "autoscaling:DescribeLaunchConfigurations",
+      "ec2:DescribeLaunchTemplateVersions",
+    ]
+
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy" "ec2_cluster_autoscaler_describe" {
+  name_prefix = "eks-worker-autoscaler-describe-"
+  role        = aws_iam_role.worker_nodes.id
+  policy      = data.aws_iam_policy_document.worker_nodes_cluster_autoscaler_describe.json
 }

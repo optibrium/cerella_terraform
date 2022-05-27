@@ -55,6 +55,12 @@ resource "aws_autoscaling_group" "workers" {
     propagate_at_launch = true
   }
 
+  tag {
+    key                 = "k8s.io/cluster-autoscaler/enabled"
+    value               = "true"
+    propagate_at_launch = true
+  }
+
   lifecycle {
     ignore_changes = [load_balancers, target_group_arns]
   }
