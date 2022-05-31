@@ -105,7 +105,7 @@ resource "helm_release" "cluster_autoscaler" {
   }
   set {
     name  = "image.tag"
-    value = var.eks-version
+    value = var.cluster-autoscaler-version
   }
 
 }

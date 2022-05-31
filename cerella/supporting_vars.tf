@@ -22,6 +22,10 @@ variable "prometheus-version" {
   default = "19.2.3"
 }
 
+variable "cluster-autoscaler-version" {
+  default = "1.20.0"
+}
+
 variable "cluster-ingress-port" {
   default = "30443"
   type    = string
