@@ -23,7 +23,7 @@ variable "prometheus-version" {
 }
 
 variable "cluster-autoscaler-version" {
-  default = "1.20.0"
+  default = "v1.20.0"
 }
 
 variable "cluster-ingress-port" {
