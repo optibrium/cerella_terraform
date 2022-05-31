@@ -104,6 +104,14 @@ resource "helm_release" "cluster_autoscaler" {
     value = var.cluster-name
   }
   set {
+    name  = "cloudProvider"
+    value = "aws"
+  }
+  set {
+    name  = "awsRegion"
+    value = var.region
+  }
+set {
     name  = "image.tag"
     value = var.cluster-autoscaler-version
   }
