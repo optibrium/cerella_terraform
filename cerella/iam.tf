@@ -102,7 +102,6 @@ data "aws_iam_policy_document" "worker_nodes_cluster_autoscaler_action" {
     ]
 
     resources = [
-      aws_autoscaling_group.std_workers.arn,
       "*",
     ]
   }
