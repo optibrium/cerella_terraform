@@ -121,6 +121,8 @@ data "aws_iam_policy_document" "worker_nodes_cluster_autoscaler_describe" {
       "autoscaling:DescribeAutoScalingInstances",
       "autoscaling:DescribeTags",
       "autoscaling:DescribeLaunchConfigurations",
+      "ec2:DescribeInstanceTypes",
+      "eks:DescribeNodegroup",
       "ec2:DescribeLaunchTemplateVersions",
     ]
 

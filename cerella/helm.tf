@@ -93,6 +93,19 @@ resource "helm_release" "prometheus" {
   depends_on = [aws_eks_cluster.environment]
 }
 
+resource "helm_release" "cluster_autoscaler" {
+  name       = "autoscaler"
+  repository = "https://kubernetes.github.io/autoscaler"
+  chart      = "cluster-autoscaler"
+  version    = var.prometheus-version
+  depends_on = [aws_eks_cluster.environment]
+
+  set {
+    name  = "autoDiscovery.clusterName"
+    value = var.cluster-name
+  }
+}
+
 resource "kubernetes_namespace" "blue" {
   metadata {
     annotations = {
