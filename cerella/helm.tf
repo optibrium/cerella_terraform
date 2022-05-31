@@ -107,7 +107,9 @@ resource "helm_release" "cluster_autoscaler" {
     name  = "image.tag"
     value = var.cluster-autoscaler-version
   }
-
+  metadata {
+    namespace = "kube-system"
+  }
 }
 
 resource "kubernetes_namespace" "blue" {
