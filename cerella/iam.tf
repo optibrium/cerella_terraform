@@ -55,18 +55,23 @@ data "aws_iam_policy_document" "d_workers" {
     }
   }
 }
-resource "aws_iam_role_policy_attachment" "worker_nodes-AmazonEKSWorkerNodePolicy" {
+resource "aws_iam_role_policy_attachment" "worker_nodes_AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.worker_nodes.name
 }
 
-resource "aws_iam_role_policy_attachment" "worker_nodes-AmazonEKS_CNI_Policy" {
+resource "aws_iam_role_policy_attachment" "worker_nodes_AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.worker_nodes.name
 }
 
-resource "aws_iam_role_policy_attachment" "worker_nodes-AmazonEC2ContainerRegistryReadOnly" {
+resource "aws_iam_role_policy_attachment" "worker_nodes_AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.worker_nodes.name
+}
+
+resource "aws_iam_role_policy_attachment" "worker_nodes_ssm_access" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
   role       = aws_iam_role.worker_nodes.name
 }
 
@@ -83,7 +88,7 @@ data "aws_iam_policy_document" "worker_nodes_describe_tags" {
   }
 }
 
-resource "aws_iam_role_policy" "ec2_describe_tags" {
+resource "aws_iam_role_policy" "worker_nodes_describe_tags" {
   name_prefix = "eks-worker-tags-"
   role        = aws_iam_role.worker_nodes.id
   policy      = data.aws_iam_policy_document.worker_nodes_describe_tags.json
@@ -103,7 +108,7 @@ data "aws_iam_policy_document" "worker_nodes_cluster_autoscaler_action" {
   }
 }
 
-resource "aws_iam_role_policy" "ec2_cluster_autoscaler_action" {
+resource "aws_iam_role_policy" "worker_nodes_cluster_autoscaler_action" {
   name_prefix = "eks-worker-autoscaler-action-"
   role        = aws_iam_role.worker_nodes.id
   policy      = data.aws_iam_policy_document.worker_nodes_cluster_autoscaler_action.json
@@ -123,7 +128,7 @@ data "aws_iam_policy_document" "worker_nodes_cluster_autoscaler_describe" {
   }
 }
 
-resource "aws_iam_role_policy" "ec2_cluster_autoscaler_describe" {
+resource "aws_iam_role_policy" "worker_nodes_cluster_autoscaler_describe" {
   name_prefix = "eks-worker-autoscaler-describe-"
   role        = aws_iam_role.worker_nodes.id
   policy      = data.aws_iam_policy_document.worker_nodes_cluster_autoscaler_describe.json
