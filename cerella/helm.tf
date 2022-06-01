@@ -98,7 +98,7 @@ resource "helm_release" "cluster_autoscaler" {
   repository = "https://kubernetes.github.io/autoscaler"
   chart      = "cluster-autoscaler"
   depends_on = [aws_eks_cluster.environment]
-  namespace = "kube-system"
+  namespace  = "kube-system"
   set {
     name  = "autoDiscovery.clusterName"
     value = var.cluster-name
@@ -111,7 +111,7 @@ resource "helm_release" "cluster_autoscaler" {
     name  = "awsRegion"
     value = var.region
   }
-set {
+  set {
     name  = "image.tag"
     value = var.cluster-autoscaler-version
   }
