@@ -28,7 +28,10 @@ resource "helm_release" "ingress" {
     name  = "controller.replicaCount"
     value = "1"
   }
-
+  set {
+    name  = "controller.healthStatus"
+    value = "true"
+  }
   set {
     name  = "controller.kind"
     value = "daemonset"
