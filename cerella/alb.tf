@@ -42,7 +42,7 @@ resource "aws_alb_target_group" "workers" {
   vpc_id   = aws_vpc.environment.id
   health_check {
     enabled = true
-    healthy_threshold = 5
+    healthy_threshold = 4
     interval = 30
     matcher = "200"
     path = "/nginx-health"
