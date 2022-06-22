@@ -167,10 +167,13 @@ resource "kubernetes_namespace" "green" {
   metadata {
     annotations = {
       name = "green"
+      meta.helm.sh/release-name      = "green"
+      meta.helm.sh/release-namespace = "default"
     }
 
     labels = {
       purpose = "green"
+      app.kubernetes.io/managed-by = "Helm"
     }
 
     name = "green"
