@@ -4,22 +4,9 @@
 #
 
 # This might be overridden
-variable "eks-instance-type" {
-  default = "t2.large"
+variable "cidr" {
+  default = "10.0.0.0/16"
   type    = string
-}
-
-# This might be overridden
-variable "eks-instance-count" {
-  default = 3
-}
-
-variable "ingress-version" {
-  default = "0.11.3"
-}
-
-variable "prometheus-version" {
-  default = "19.2.3"
 }
 
 variable "cluster-autoscaler-version" {
@@ -31,9 +18,14 @@ variable "cluster-ingress-port" {
   type    = string
 }
 
-variable "region" {
-  default = "eu-west-1"
+variable "eks-instance-type" {
+  default = "t2.large"
   type    = string
+}
+
+# This might be overridden
+variable "eks-instance-count" {
+  default = 3
 }
 
 variable "eks-version" {
@@ -46,9 +38,8 @@ variable "eks-ami" {
   type    = string
 }
 
-variable "right-availability-zone" {
-  default = "eu-west-1a"
-  type    = string
+variable "ingress-version" {
+  default = "0.11.3"
 }
 
 variable "left-availability-zone" {
@@ -56,17 +47,32 @@ variable "left-availability-zone" {
   type    = string
 }
 
-variable "cidr" {
-  default = "10.0.0.0/16"
+variable "left-subnet-cidr" {
+  default = "10.0.2.0/24"
+  type    = string
+}
+
+variable "prometheus-version" {
+  default = "19.2.3"
+}
+
+variable "region" {
+  default = "eu-west-1"
+  type    = string
+}
+
+variable "registry_username" {
+}
+
+variable "registry_password" {
+}
+
+variable "right-availability-zone" {
+  default = "eu-west-1a"
   type    = string
 }
 
 variable "right-subnet-cidr" {
   default = "10.0.1.0/24"
-  type    = string
-}
-
-variable "left-subnet-cidr" {
-  default = "10.0.2.0/24"
   type    = string
 }

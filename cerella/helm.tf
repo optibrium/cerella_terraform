@@ -11,22 +11,21 @@ provider "helm" {
   }
 }
 
-variable "registry_username" {
-}
-
-variable "registry_password" {
-}
-
 resource "helm_release" "ingress" {
   name       = "ingress"
   repository = "https://helm.nginx.com/stable"
   chart      = "nginx-ingress"
   version    = var.ingress-version
-  depends_on = [aws_eks_cluster.environment]
+  depends_on = [aws_autoscaling_group.workers]
 
   set {
     name  = "controller.replicaCount"
     value = "1"
+  }
+
+  set {
+    name  = "controller.healthStatus"
+    value = "true"
   }
 
   set {
@@ -38,11 +37,6 @@ resource "helm_release" "ingress" {
     name  = "controller.service.type"
     value = "NodePort"
   }
-
-  #set {
-  #  name  = "controller.service.httpsPort.nodePort"
-  #  value = var.cluster-ingress-port
-  #}
 
   set {
     name  = "controller.service.httpPort.nodePort"
@@ -90,7 +84,7 @@ resource "helm_release" "prometheus" {
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
   version    = var.prometheus-version
-  depends_on = [aws_eks_cluster.environment]
+  depends_on = [aws_autoscaling_group.workers]
 }
 
 resource "helm_release" "cluster_autoscaler" {
@@ -164,10 +158,13 @@ resource "kubernetes_namespace" "green" {
   metadata {
     annotations = {
       name = "green"
+      "meta.helm.sh/release-name"      = "green"
+      "meta.helm.sh/release-namespace" = "default"
     }
 
     labels = {
       purpose = "green"
+      "app.kubernetes.io/managed-by" = "Helm"
     }
 
     name = "green"
