@@ -4,10 +4,6 @@
 #
 
 # This might be overridden
-variable "cerella-version" {
-  default = "1.0.32"
-}
-
 variable "cidr" {
   default = "10.0.0.0/16"
   type    = string
