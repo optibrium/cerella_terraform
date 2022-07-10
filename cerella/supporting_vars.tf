@@ -18,8 +18,16 @@ variable "cluster-ingress-port" {
   type    = string
 }
 
-variable "eks-instance-type" {
-  default = "t2.large"
+variable "cluster-name" {
+  type = string
+}
+
+variable "domain" {
+  type = string
+}
+
+variable "eks-ami" {
+  default = "ami-031de2a4db6a7880f"
   type    = string
 }
 
@@ -28,14 +36,23 @@ variable "eks-instance-count" {
   default = 3
 }
 
+variable "eks-instance-type" {
+  default = "t2.large"
+  type    = string
+}
+
 variable "eks-version" {
   default = "1.20"
   type    = string
 }
 
-variable "eks-ami" {
-  default = "ami-031de2a4db6a7880f"
-  type    = string
+variable "hosted-zone-id" {
+  type = string
+}
+
+# Normally this would be IP restricted,
+variable "ingress-cidr" {
+  type = list(string)
 }
 
 variable "ingress-version" {
@@ -61,10 +78,10 @@ variable "region" {
   type    = string
 }
 
-variable "registry_username" {
+variable "registry_password" {
 }
 
-variable "registry_password" {
+variable "registry_username" {
 }
 
 variable "right-availability-zone" {
