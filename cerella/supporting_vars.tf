@@ -69,8 +69,8 @@ variable "left-subnet-cidr" {
   type    = string
 }
 
-variable "prometheus-version" {
-  default = "19.2.3"
+variable "prometheus-chart-version" {
+  default = "38.0.0"
 }
 
 variable "region" {

@@ -83,7 +83,7 @@ resource "helm_release" "prometheus" {
   name       = "prometheus"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
-  version    = var.prometheus-version
+  version    = var.prometheus-chart-version
   depends_on = [aws_autoscaling_group.workers]
 
   set {
@@ -92,12 +92,22 @@ resource "helm_release" "prometheus" {
   }
   set {
     name  = "storageSpec.volumeClaimTemplate.spec.accessModes"
-    value = ["ReadWriteOnce"]
+    value = "[\"ReadWriteOnce\"]"
   }
 
   set {
     name  = "storageSpec.volumeClaimTemplate.spec.resources.requests.storage"
     value = "20Gi"
+  }
+
+  set {
+    name  = "fullnameOverride"
+    value = "prometheus"
+  }
+
+  set {
+    name  = "alertmanager.enabled"
+    value = false
   }
 
 }
