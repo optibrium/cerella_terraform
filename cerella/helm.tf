@@ -85,6 +85,21 @@ resource "helm_release" "prometheus" {
   chart      = "kube-prometheus-stack"
   version    = var.prometheus-version
   depends_on = [aws_autoscaling_group.workers]
+
+  set {
+    name  = "storageSpec.volumeClaimTemplate.spec.storageClassName"
+    value = "gp2"
+  }
+  set {
+    name  = "storageSpec.volumeClaimTemplate.spec.accessModes"
+    value = ["ReadWriteOnce"]
+  }
+
+  set {
+    name  = "storageSpec.volumeClaimTemplate.spec.resources.requests.storage"
+    value = "20Gi"
+  }
+
 }
 
 resource "helm_release" "cluster_autoscaler" {
