@@ -101,8 +101,18 @@ resource "helm_release" "prometheus" {
   }
 
   set {
+    name  = "prometheus.prometheusSpec.podMetadata.annotations.cluster-autoscaler\\.kubernetes\\.io/safe-to-evict"
+    value = "\"true\""
+  }
+
+  set {
     name  = "alertmanager.enabled"
     value = false
+  }
+
+  set {
+    name  = "grafana.podAnnotations.cluster-autoscaler\\.kubernetes\\.io/safe-to-evict"
+    value = "\"true\""
   }
 
 }
