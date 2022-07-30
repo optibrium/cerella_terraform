@@ -10,7 +10,7 @@ variable "cidr" {
 }
 
 variable "cluster-autoscaler-version" {
-  default = "v1.20.0"
+  default = "v1.22.0"
 }
 
 variable "cluster-ingress-port" {
@@ -27,7 +27,7 @@ variable "domain" {
 }
 
 variable "eks-ami" {
-  default = "ami-031de2a4db6a7880f"
+  default = "ami-0fd784d3523cda0fa"
   type    = string
 }
 
@@ -42,7 +42,7 @@ variable "eks-instance-type" {
 }
 
 variable "eks-version" {
-  default = "1.20"
+  default = "1.22"
   type    = string
 }
 
