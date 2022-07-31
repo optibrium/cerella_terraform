@@ -187,13 +187,13 @@ resource "kubernetes_secret" "blue-docker-logins" {
 resource "kubernetes_namespace" "green" {
   metadata {
     annotations = {
-      name = "green"
+      name                             = "green"
       "meta.helm.sh/release-name"      = "green"
       "meta.helm.sh/release-namespace" = "default"
     }
 
     labels = {
-      purpose = "green"
+      purpose                        = "green"
       "app.kubernetes.io/managed-by" = "Helm"
     }
 
@@ -227,4 +227,12 @@ resource "kubernetes_secret" "green-docker-logins" {
   }
 
   type = "kubernetes.io/dockerconfigjson"
+}
+
+resource "helm_release" "external_secrets" {
+  name       = "external-secrets"
+  repository = "https://charts.external-secrets.io"
+  chart      = "external-secrets"
+  depends_on = [aws_eks_cluster.environment]
+  namespace  = "kube-system"
 }

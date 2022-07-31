@@ -134,3 +134,33 @@ resource "aws_iam_role_policy" "worker_nodes_cluster_autoscaler_describe" {
   role        = aws_iam_role.worker_nodes.id
   policy      = data.aws_iam_policy_document.worker_nodes_cluster_autoscaler_describe.json
 }
+
+# IAM Role for IRSA
+data "aws_iam_policy_document" "irsa" {
+  statement {
+    principals {
+      type        = "Federated"
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${local.provider_url}"]
+    }
+    actions = [
+      "sts:AssumeRoleWithWebIdentity",
+    ]
+    condition {
+      test     = "StringEquals"
+      variable = "${local.provider_url}:sub"
+      values   = ["system:serviceaccount:${var.namespace}:${service_account_name}"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "${local.provider_url}:aud"
+      values   = ["sts.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "irsa" {
+  name               = "irsa_role"
+  path               = "/"
+  assume_role_policy = data.aws_iam_policy_document.irsa.json
+}

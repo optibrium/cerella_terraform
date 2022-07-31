@@ -127,3 +127,17 @@ resource "aws_key_pair" "cerella_ssh_key" {
   key_name   = "cerella-${var.cluster-name}"
   public_key = file("${path.module}/template/ssh_pub.tpl")
 }
+
+data "tls_certificate" "environment" {
+  url = aws_eks_cluster.environment.identity.0.oidc.0.issuer
+}
+resource "aws_iam_openid_connect_provider" "oidc_identity_provider" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [data.tls_certificate.environment.certificates.0.sha1_fingerprint]
+  url             = aws_eks_cluster.environment.identity.0.oidc.0.issuer
+}
+
+locals {
+  provider_url = replace(flatten(concat(aws_eks_cluster.environment[*].identity[*].oidc.0.issuer, [""]))[0], "https://", "")
+
+}
