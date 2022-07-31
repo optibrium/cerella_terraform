@@ -148,7 +148,7 @@ data "aws_iam_policy_document" "irsa" {
     condition {
       test     = "StringEquals"
       variable = "${local.provider_url}:sub"
-      values   = ["system:serviceaccount:${var.namespace}:${service_account_name}"]
+      values   = ["system:serviceaccount:${var.namespace}:${var.service_account_name}"]
     }
 
     condition {
