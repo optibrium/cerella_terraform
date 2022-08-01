@@ -18,8 +18,8 @@ output "service_account_yaml" {
   metadata:
     annotations:
       eks.amazonaws.com/role-arn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${aws_iam_role.irsa.name}
-    name: ${var.service_account_name}
-    namespace: ${var.namespace}
+    name: ${var.service-account-name}
+    namespace: ${var.service-account-namespace}
 
 HERE
 
