@@ -59,6 +59,11 @@ variable "ingress-version" {
   default = "0.11.3"
 }
 
+variable "irsa_iam_role_name" {
+  default = "external-secrets-readonly"
+  type    = string
+}
+
 variable "left-availability-zone" {
   default = "eu-west-1b"
   type    = string
@@ -94,12 +99,12 @@ variable "right-subnet-cidr" {
   type    = string
 }
 
-variable "service_account_name" {
+variable "service-account-name" {
   default = "external-secrets"
   type    = string
 }
 
-variable "namespace" {
+variable "service-account-namespace" {
   default = "kube-system"
   type    = string
 }

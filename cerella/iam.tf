@@ -148,7 +148,7 @@ data "aws_iam_policy_document" "irsa" {
     condition {
       test     = "StringEquals"
       variable = "${local.provider_url}:sub"
-      values   = ["system:serviceaccount:${var.namespace}:${var.service_account_name}"]
+      values   = ["system:serviceaccount:${var.service-account-namespace}:${var.service-account-name}"]
     }
 
     condition {
@@ -160,7 +160,7 @@ data "aws_iam_policy_document" "irsa" {
 }
 
 resource "aws_iam_role" "irsa" {
-  name               = "irsa_role"
+  name               = "${var.irsa_iam_role_name}"
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.irsa.json
 }
