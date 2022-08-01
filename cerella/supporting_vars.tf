@@ -100,6 +100,6 @@ variable "service_account_name" {
 }
 
 variable "namespace" {
-  default = "default"
+  default = "kube-system"
   type    = string
 }
