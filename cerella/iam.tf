@@ -143,16 +143,8 @@ data "aws_iam_policy_document" "irsa" {
       identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${local.provider_url}"]
     }
     actions = [
-      "sts:AssumeRoleWithWebIdentity",
-      "secretsmanager:GetResourcePolicy",
-      "secretsmanager:GetSecretValue",
-      "secretsmanager:DescribeSecret",
-      "secretsmanager:ListSecretVersionIds"
+      "sts:AssumeRoleWithWebIdentity"
     ]
-
-    resources = [
-      "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:cerella-*"
-      ]
 
     condition {
       test     = "StringEquals"
@@ -169,7 +161,30 @@ data "aws_iam_policy_document" "irsa" {
 }
 
 resource "aws_iam_role" "irsa" {
-  name               = "${var.irsa_iam_role_name}"
+  name               = var.irsa_iam_role_name
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.irsa.json
+}
+
+data "aws_iam_policy_document" "external_secret_readonly" {
+  statement {
+    actions = [
+      "sts:AssumeRoleWithWebIdentity",
+      "secretsmanager:GetResourcePolicy",
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret",
+      "secretsmanager:ListSecretVersionIds"
+    ]
+
+    resources = [
+      "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:cerella-*"
+    ]
+
+  }
+}
+
+resource "aws_iam_role_policy" "external_secret_readonly" {
+  name_prefix = "external-secret-readonly-"
+  role        = aws_iam_role.aws_iam_role.id
+  policy      = data.aws_iam_policy_document.external_secret_readonly.json
 }
