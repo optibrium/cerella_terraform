@@ -144,7 +144,16 @@ data "aws_iam_policy_document" "irsa" {
     }
     actions = [
       "sts:AssumeRoleWithWebIdentity",
+      "secretsmanager:GetResourcePolicy",
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret",
+      "secretsmanager:ListSecretVersionIds"
     ]
+
+    resources = [
+      "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:cerella-*"
+      ]
+
     condition {
       test     = "StringEquals"
       variable = "${local.provider_url}:sub"
