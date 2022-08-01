@@ -235,4 +235,9 @@ resource "helm_release" "external_secrets" {
   chart      = "external-secrets"
   depends_on = [aws_eks_cluster.environment]
   namespace  = "kube-system"
+
+  set {
+    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+    value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${aws_iam_role.irsa.name}"
+  }
 }
