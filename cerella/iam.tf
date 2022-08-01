@@ -177,7 +177,7 @@ data "aws_iam_policy_document" "external_secret_readonly" {
     ]
 
     resources = [
-      "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:cerella-*"
+      "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:CERELLA_*"
     ]
 
   }
