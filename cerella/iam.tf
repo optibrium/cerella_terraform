@@ -161,7 +161,7 @@ data "aws_iam_policy_document" "irsa" {
 }
 
 resource "aws_iam_role" "irsa" {
-  name               = var.irsa_iam_role_name
+  name               = "${var.irsa_iam_role_name}-${var.cluster-name}"
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.irsa.json
 }
