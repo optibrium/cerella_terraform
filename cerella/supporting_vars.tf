@@ -10,7 +10,7 @@ variable "cidr" {
 }
 
 variable "cluster-autoscaler-version" {
-  default = "v1.20.0"
+  default = "v1.22.0"
 }
 
 variable "cluster-ingress-port" {
@@ -27,7 +27,7 @@ variable "domain" {
 }
 
 variable "eks-ami" {
-  default = "ami-031de2a4db6a7880f"
+  default = "ami-0fd784d3523cda0fa"
   type    = string
 }
 
@@ -42,7 +42,7 @@ variable "eks-instance-type" {
 }
 
 variable "eks-version" {
-  default = "1.20"
+  default = "1.22"
   type    = string
 }
 
@@ -57,6 +57,11 @@ variable "ingress-cidr" {
 
 variable "ingress-version" {
   default = "0.11.3"
+}
+
+variable "irsa_iam_role_name" {
+  default = "external-secrets-readonly"
+  type    = string
 }
 
 variable "left-availability-zone" {
@@ -91,5 +96,15 @@ variable "right-availability-zone" {
 
 variable "right-subnet-cidr" {
   default = "10.0.1.0/24"
+  type    = string
+}
+
+variable "service-account-name" {
+  default = "external-secrets"
+  type    = string
+}
+
+variable "service-account-namespace" {
+  default = "kube-system"
   type    = string
 }

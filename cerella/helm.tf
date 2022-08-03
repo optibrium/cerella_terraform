@@ -187,13 +187,13 @@ resource "kubernetes_secret" "blue-docker-logins" {
 resource "kubernetes_namespace" "green" {
   metadata {
     annotations = {
-      name = "green"
+      name                             = "green"
       "meta.helm.sh/release-name"      = "green"
       "meta.helm.sh/release-namespace" = "default"
     }
 
     labels = {
-      purpose = "green"
+      purpose                        = "green"
       "app.kubernetes.io/managed-by" = "Helm"
     }
 
@@ -227,4 +227,43 @@ resource "kubernetes_secret" "green-docker-logins" {
   }
 
   type = "kubernetes.io/dockerconfigjson"
+}
+
+resource "helm_release" "external_secrets" {
+  name       = "external-secrets"
+  repository = "https://charts.external-secrets.io"
+  chart      = "external-secrets"
+  depends_on = [aws_eks_cluster.environment]
+  namespace  = "kube-system"
+
+  set {
+    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+    value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${aws_iam_role.irsa.name}"
+  }
+}
+
+resource "kubernetes_manifest" "cluster_secret_store" {
+  manifest = {
+    "apiVersion" = "external-secrets.io/v1beta1"
+    "kind"       = "ClusterSecretStore"
+    "metadata" = {
+      "name"      = "external-secrets"
+    }
+    "spec" = {
+      "provider" = {
+        "aws" = {
+          "service" = "SecretsManager"
+          "region" = "eu-west-1"
+          "auth" = {
+            "jwt" = {
+              "serviceAccountRef" = {
+                "name"= "external-secrets"
+                "namespace"= "kube-system"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
