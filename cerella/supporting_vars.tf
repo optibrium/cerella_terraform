@@ -108,3 +108,13 @@ variable "service-account-namespace" {
   default = "kube-system"
   type    = string
 }
+
+variable "k8s_service_account_namespace" {
+  default = "blue"
+  type    = string
+}
+
+variable "k8s_service_account_name" {
+  default = "ingest"
+  type    = string
+}
