@@ -33,3 +33,15 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "name_prefix" {
+  type        = string
+  description = "(Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with name."
+  default     = null
+}
+
+variable "policy_statements" {
+  type        = any
+  description = "(Required, conflicts with policy) A list of policy statements to build the policy document from."
+  default     = []
+}
