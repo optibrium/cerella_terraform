@@ -247,18 +247,18 @@ resource "kubernetes_manifest" "cluster_secret_store" {
     "apiVersion" = "external-secrets.io/v1beta1"
     "kind"       = "ClusterSecretStore"
     "metadata" = {
-      "name"      = "external-secrets"
+      "name" = "external-secrets"
     }
     "spec" = {
       "provider" = {
         "aws" = {
           "service" = "SecretsManager"
-          "region" = "eu-west-1"
+          "region"  = "eu-west-1"
           "auth" = {
             "jwt" = {
               "serviceAccountRef" = {
-                "name"= "external-secrets"
-                "namespace"= "kube-system"
+                "name"      = "external-secrets"
+                "namespace" = "kube-system"
               }
             }
           }
