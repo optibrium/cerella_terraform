@@ -91,7 +91,7 @@ variable "oidc_subjects_with_wildcards" {
 variable "oidc_fully_qualified_audiences" {
   description = "The audience to be added to the role policy. Set to sts.amazonaws.com for cross-account assumable role. Leave empty otherwise."
   type        = set(string)
-  default     = []
+  default     = ["sts.amazonaws.com"]
 }
 
 variable "force_detach_policies" {

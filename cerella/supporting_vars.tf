@@ -109,12 +109,22 @@ variable "service-account-namespace" {
   type    = string
 }
 
-variable "k8s_service_account_namespace" {
+variable "ingest_service_account_namespace" {
   default = "blue"
   type    = string
 }
 
-variable "k8s_service_account_name" {
+variable "ingest_service_account_name" {
+  default = "ingest"
+  type    = string
+}
+
+variable "external_secret_service_account_namespace" {
+  default = "blue"
+  type    = string
+}
+
+variable "external_secret_service_account_name" {
   default = "ingest"
   type    = string
 }
