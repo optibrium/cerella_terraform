@@ -15,7 +15,9 @@ module "external_secret_iam_policy" {
         "secretsmanager:DescribeSecret",
         "secretsmanager:ListSecretVersionIds"
         ]
-      resources = [module.ingest_kms_key.key_arn]
+      resources = [
+        "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:CERELLA_*"
+        ]
     }
   ]
 }
@@ -50,7 +52,9 @@ module "ingest_iam_policy" {
         "kms:Encrypt",
         "kms:Decrypt"
         ]
-      resources = [module.ingest_kms_key.key_arn]
+      resources = [
+        module.ingest_kms_key.key_arn
+        ]
     }
   ]
 }
