@@ -4,7 +4,6 @@ locals {
 resource "aws_iam_policy" "policy" {
   count = var.create_policy ? 1 : 0
 
-  name        = var.name
   name_prefix = var.name_prefix
   description = var.description
   path        = var.path
