@@ -34,6 +34,6 @@ variable "enable_key_rotation" {
 
 variable "tags" {
   description = "(Optional) A mapping of tags to assign to the object."
-  type        = map
+  type        = map(any)
   default     = {}
 }

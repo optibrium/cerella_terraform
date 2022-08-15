@@ -1,4 +1,4 @@
-resource aws_kms_key this {
+resource "aws_kms_key" "this" {
   description             = var.description
   key_usage               = "ENCRYPT_DECRYPT"
   policy                  = var.iam_policy
@@ -8,7 +8,7 @@ resource aws_kms_key this {
   tags                    = var.tags
 }
 
-resource aws_kms_alias this {
+resource "aws_kms_alias" "this" {
   name          = "alias/${var.alias_name}"
   target_key_id = aws_kms_key.this.id
 }
