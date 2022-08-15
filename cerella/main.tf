@@ -26,7 +26,7 @@ module "external_secret_iam_role" {
   role_name                     = "external-secret-${var.cluster-name}"
   provider_url                  = local.oidc_provider_url
   role_policy_arns              = [module.external_secret_iam_policy.arn]
-  oidc_fully_qualified_subjects = ["system:serviceaccount:${var.k8s_service_account_namespace}:${var.k8s_service_account_name}"]
+  oidc_fully_qualified_subjects = ["system:serviceaccount:${var.external_secret_service_account_namespace}:${var.external_secret_service_account_name}"]
 }
 
 module "ingest_kms_key" {
@@ -60,5 +60,5 @@ module "ingest_irsa_iam_role" {
   role_name                     = "ingest-${var.cluster-name}"
   provider_url                  = local.oidc_provider_url
   role_policy_arns              = [module.ingest_iam_policy.arn]
-  oidc_fully_qualified_subjects = ["system:serviceaccount:${var.k8s_service_account_namespace}:${var.k8s_service_account_name}"]
+  oidc_fully_qualified_subjects = ["system:serviceaccount:${var.ingest_service_account_namespace}:${var.ingest_service_account_name}"]
 }
