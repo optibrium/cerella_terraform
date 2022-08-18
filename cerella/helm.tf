@@ -238,33 +238,6 @@ resource "helm_release" "external_secrets" {
 
   set {
     name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${aws_iam_role.irsa.name}"
+    value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${module.external_secret_iam_role.iam_role_name}"
   }
-}
-
-resource "kubernetes_manifest" "cluster_secret_store" {
-  manifest = {
-    "apiVersion" = "external-secrets.io/v1beta1"
-    "kind"       = "ClusterSecretStore"
-    "metadata" = {
-      "name"      = "external-secrets"
-    }
-    "spec" = {
-      "provider" = {
-        "aws" = {
-          "service" = "SecretsManager"
-          "region" = "eu-west-1"
-          "auth" = {
-            "jwt" = {
-              "serviceAccountRef" = {
-                "name"= "external-secrets"
-                "namespace"= "kube-system"
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  depends_on = [helm_release.external_secrets]
 }

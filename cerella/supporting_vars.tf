@@ -108,3 +108,23 @@ variable "service-account-namespace" {
   default = "kube-system"
   type    = string
 }
+
+variable "ingest_service_account_namespace" {
+  default = "blue"
+  type    = string
+}
+
+variable "ingest_service_account_name" {
+  default = "ingest"
+  type    = string
+}
+
+variable "external_secret_service_account_namespace" {
+  default = "kube-system"
+  type    = string
+}
+
+variable "external_secret_service_account_name" {
+  default = "external-secrets"
+  type    = string
+}
