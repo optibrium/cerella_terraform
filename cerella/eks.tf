@@ -143,3 +143,18 @@ locals {
   provider_url = replace(flatten(concat(aws_eks_cluster.environment[*].identity[*].oidc.0.issuer, [""]))[0], "https://", "")
   depends_on   = [aws_iam_openid_connect_provider.oidc_identity_provider]
 }
+
+# Addon
+# Kube Proxy
+
+data "aws_eks_addon" "kube_proxy" {
+  addon_name         = "kube-proxy"
+  cluster_name = aws_eks_cluster.environment.name
+}
+
+resource "aws_eks_addon" "kube_proxy" {
+  cluster_name  = aws_eks_cluster.environment.name
+  addon_name    = "kube-proxy"
+  addon_version = data.aws_eks_addon.kube_proxy.addon_version
+  resolve_conflicts = "OVERWRITE"
+}
