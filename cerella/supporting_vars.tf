@@ -129,7 +129,13 @@ variable "external_secret_service_account_name" {
   type    = string
 }
 
+# Get addon version value by running aws eks describe-addon-versions
 variable "kube_proxy_addon_version" {
   default = "v1.20.15-eksbuild.2"
+  type    = string
+}
+
+variable "vpc_cni_addon_version" {
+  default = "v1.11.3-eksbuild.1"
   type    = string
 }

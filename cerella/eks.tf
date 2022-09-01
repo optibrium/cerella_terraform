@@ -152,3 +152,11 @@ resource "aws_eks_addon" "kube_proxy" {
   addon_version     = var.kube_proxy_addon_version
   resolve_conflicts = "OVERWRITE"
 }
+
+# Kube Proxy
+resource "aws_eks_addon" "vpc_cni" {
+  cluster_name      = aws_eks_cluster.environment.name
+  addon_name        = "vpc-cni"
+  addon_version     = var.vpc_cni_addon_version
+  resolve_conflicts = "OVERWRITE"
+}
