@@ -128,3 +128,8 @@ variable "external_secret_service_account_name" {
   default = "external-secrets"
   type    = string
 }
+
+variable "kube_proxy_addon_version" {
+  default = "v1.20.15-eksbuild.2"
+  type    = string
+}

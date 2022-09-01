@@ -146,14 +146,9 @@ locals {
 
 # Addon
 # Kube Proxy
-
-data "aws_eks_addon_version" "kube_proxy" {
-  addon_name         = "kube-proxy"
-  kubernetes_version = aws_eks_cluster.environment.version
-}
 resource "aws_eks_addon" "kube_proxy" {
   cluster_name      = aws_eks_cluster.environment.name
   addon_name        = "kube-proxy"
-  addon_version     = data.aws_eks_addon_version.kube_proxy.version
+  addon_version     = var.kube_proxy_addon_version
   resolve_conflicts = "OVERWRITE"
 }
