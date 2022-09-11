@@ -141,6 +141,6 @@ variable "vpc_cni_addon_version" {
 }
 
 variable "coredns_addon_version" {
-  default = "v1.8.7-eksbuild.2"
+  default = "v1.8.3-eksbuild.1"
   type    = string
 }
