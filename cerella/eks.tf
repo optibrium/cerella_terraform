@@ -160,3 +160,11 @@ resource "aws_eks_addon" "vpc_cni" {
   addon_version     = var.vpc_cni_addon_version
   resolve_conflicts = "OVERWRITE"
 }
+
+# Coredns
+resource "aws_eks_addon" "coredns" {
+  cluster_name      = aws_eks_cluster.environment.name
+  addon_name        = "coredns"
+  addon_version     = var.coredns_addon_version
+  resolve_conflicts = "OVERWRITE"
+}
