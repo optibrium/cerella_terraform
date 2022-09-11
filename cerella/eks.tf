@@ -151,6 +151,7 @@ resource "aws_eks_addon" "kube_proxy" {
   addon_name        = "kube-proxy"
   addon_version     = var.kube_proxy_addon_version
   resolve_conflicts = "OVERWRITE"
+  depends_on      = [aws_eks_cluster.environment]
 }
 
 # Kube Proxy
@@ -159,6 +160,7 @@ resource "aws_eks_addon" "vpc_cni" {
   addon_name        = "vpc-cni"
   addon_version     = var.vpc_cni_addon_version
   resolve_conflicts = "OVERWRITE"
+  depends_on      = [aws_eks_cluster.environment]
 }
 
 # Coredns
@@ -167,4 +169,5 @@ resource "aws_eks_addon" "coredns" {
   addon_name        = "coredns"
   addon_version     = var.coredns_addon_version
   resolve_conflicts = "OVERWRITE"
+  depends_on      = [aws_eks_cluster.environment]
 }
