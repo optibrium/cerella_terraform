@@ -3,10 +3,17 @@
 # @date Feb 2022
 #
 
+resource "aws_ebs_encryption_by_default" "ebs_encryption" {
+  enabled = true
+}
+
 resource "aws_eks_cluster" "environment" {
   name     = var.cluster-name
   role_arn = aws_iam_role.control_plane.arn
   version  = var.eks-version
+  depends_on = [
+    aws_ebs_encryption_by_default.ebs_encryption
+  ]
 
   vpc_config {
     security_group_ids = [aws_security_group.control_plane.id]
@@ -151,7 +158,7 @@ resource "aws_eks_addon" "kube_proxy" {
   addon_name        = "kube-proxy"
   addon_version     = var.kube_proxy_addon_version
   resolve_conflicts = "OVERWRITE"
-  depends_on      = [aws_eks_cluster.environment]
+  depends_on        = [aws_eks_cluster.environment]
 }
 
 # Kube Proxy
@@ -160,7 +167,7 @@ resource "aws_eks_addon" "vpc_cni" {
   addon_name        = "vpc-cni"
   addon_version     = var.vpc_cni_addon_version
   resolve_conflicts = "OVERWRITE"
-  depends_on      = [aws_eks_cluster.environment]
+  depends_on        = [aws_eks_cluster.environment]
 }
 
 # Coredns
@@ -169,5 +176,5 @@ resource "aws_eks_addon" "coredns" {
   addon_name        = "coredns"
   addon_version     = var.coredns_addon_version
   resolve_conflicts = "OVERWRITE"
-  depends_on      = [aws_eks_cluster.environment]
+  depends_on        = [aws_eks_cluster.environment]
 }
