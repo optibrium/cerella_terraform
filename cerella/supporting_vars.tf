@@ -26,10 +26,10 @@ variable "domain" {
   type = string
 }
 
-variable "eks-ami" {
-  default = "ami-0fd784d3523cda0fa"
-  type    = string
-}
+# variable "eks-ami" {
+#   default = "ami-0fd784d3523cda0fa"
+#   type    = string
+# }
 
 # This might be overridden
 variable "eks-instance-count" {

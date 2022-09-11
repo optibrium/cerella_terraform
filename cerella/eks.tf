@@ -21,10 +21,21 @@ resource "aws_eks_cluster" "environment" {
   }
 }
 
+data "aws_ami" "eks_ami" {
+
+  filter {
+    name   = "name"
+    values = ["amazon-eks-node-${var.eks-version}-v*"]
+  }
+
+  most_recent = true
+  owners      = ["amazon"]
+}
+
 resource "aws_launch_configuration" "workers" {
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.worker_nodes.name
-  image_id                    = var.eks-ami
+  image_id                    = data.aws_ami.eks_ami[0].image_id
   instance_type               = var.eks-instance-type
   key_name                    = "cerella-${var.cluster-name}"
   name_prefix                 = "eks_workers"
