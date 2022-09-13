@@ -2,22 +2,22 @@ module "external_secret_iam_policy" {
   source        = "./modules/iam/iam-policy"
   create_policy = true
   description   = "IAM Policy for external secrets."
-  name_prefix = "external-secret-"
+  name_prefix   = "external-secret-"
   policy_statements = [
     {
       sid = "SecretManagerAccess"
 
-      effect    = "Allow"
-      actions   = [
+      effect = "Allow"
+      actions = [
         "sts:AssumeRoleWithWebIdentity",
         "secretsmanager:GetResourcePolicy",
         "secretsmanager:GetSecretValue",
         "secretsmanager:DescribeSecret",
         "secretsmanager:ListSecretVersionIds"
-        ]
+      ]
       resources = [
         "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:CERELLA_*"
-        ]
+      ]
     }
   ]
 }
@@ -42,19 +42,19 @@ module "ingest_iam_policy" {
   source        = "./modules/iam/iam-policy"
   create_policy = true
   description   = "IAM Policy for ingest service."
-  name_prefix          = "ingest-policy-"
+  name_prefix   = "ingest-policy-"
   policy_statements = [
     {
       sid = "kmsAccess"
 
-      effect    = "Allow"
-      actions   = [
+      effect = "Allow"
+      actions = [
         "kms:Encrypt",
         "kms:Decrypt"
-        ]
+      ]
       resources = [
         module.ingest_kms_key.key_arn
-        ]
+      ]
     }
   ]
 }

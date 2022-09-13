@@ -10,7 +10,7 @@ variable "cidr" {
 }
 
 variable "cluster-autoscaler-version" {
-  default = "v1.22.0"
+  default = "v1.21.3"
 }
 
 variable "cluster-ingress-port" {
@@ -26,10 +26,10 @@ variable "domain" {
   type = string
 }
 
-variable "eks-ami" {
-  default = "ami-0fd784d3523cda0fa"
-  type    = string
-}
+# variable "eks-ami" {
+#   default = "ami-0fd784d3523cda0fa"
+#   type    = string
+# }
 
 # This might be overridden
 variable "eks-instance-count" {
@@ -42,7 +42,7 @@ variable "eks-instance-type" {
 }
 
 variable "eks-version" {
-  default = "1.22"
+  default = "1.21"
   type    = string
 }
 
@@ -126,5 +126,21 @@ variable "external_secret_service_account_namespace" {
 
 variable "external_secret_service_account_name" {
   default = "external-secrets"
+  type    = string
+}
+
+# Get addon version value by running aws eks describe-addon-versions
+variable "kube_proxy_addon_version" {
+  default = "v1.21.14-eksbuild.2"
+  type    = string
+}
+
+variable "vpc_cni_addon_version" {
+  default = "v1.11.3-eksbuild.1"
+  type    = string
+}
+
+variable "coredns_addon_version" {
+  default = "v1.8.4-eksbuild.1"
   type    = string
 }
