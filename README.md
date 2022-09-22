@@ -1,3 +1,5 @@
+![Augmented Chemistry logo](http://optibrium.com/wp-content/uploads/2022/09/AugChem-Portrait-logosm.jpg)
+
 ## Optibrium Cerella Terraform
 
 ### Summary
