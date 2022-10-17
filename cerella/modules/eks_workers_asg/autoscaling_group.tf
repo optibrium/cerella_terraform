@@ -32,7 +32,7 @@ resource "aws_autoscaling_group" "workers" {
 
   tag {
     key                 = "Name"
-    value               = var.cluster-name
+    value               = var.cluster_name
     propagate_at_launch = true
   }
 

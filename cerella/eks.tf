@@ -190,6 +190,8 @@ resource "aws_eks_addon" "coredns" {
   depends_on        = [aws_eks_cluster.environment]
 }
 
-module "external_secret_iam_role" {
+module "eks_workers_asg" {
   source                        = "./modules/eks_workers_asg"
+  cluster_name = var.cluster-name
+  eks_subnet_ids = [aws_subnet.right.id, aws_subnet.left.id]
 }
