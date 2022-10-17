@@ -57,7 +57,7 @@ resource "aws_autoscaling_group" "workers" {
   health_check_grace_period = 300
   launch_configuration      = aws_launch_configuration.workers.id
   max_size                  = 7
-  min_size                  = 3
+  min_size                  = 0
   name                      = "worker_nodes-${var.cluster-name}"
   vpc_zone_identifier       = [aws_subnet.left.id, aws_subnet.right.id]
 
