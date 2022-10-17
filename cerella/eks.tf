@@ -115,6 +115,11 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
   groups:
     - system:bootstrappers
     - system:nodes
+- rolearn: ${module.eks_workers_asg.iam_arn}
+  username: system:node:{{EC2PrivateDNSName}}
+  groups:
+    - system:bootstrappers
+    - system:nodes
 - rolearn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSControlTowerExecution"
   username: ControlTowerAccess
   groups:
