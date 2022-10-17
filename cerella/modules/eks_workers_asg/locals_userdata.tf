@@ -19,7 +19,7 @@ fi
 
 # Node to Join the EKS cluster with the right Tags
 /etc/eks/bootstrap.sh \
-  --apiserver-endpoint '${var.eks_cluster_endpoint}'
+  --apiserver-endpoint '${var.eks_cluster_endpoint}' \
   --b64-cluster-ca '${var.eks_cluster_ca_cert}' \
   '${var.cluster_name}' \
   --kubelet-extra-args "$KUBELET_EXTRA_ARGS"
