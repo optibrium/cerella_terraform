@@ -241,3 +241,66 @@ resource "helm_release" "external_secrets" {
     value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${module.external_secret_iam_role.iam_role_name}"
   }
 }
+
+resource "helm_release" "cerella_eck" {
+  count      = var.deploy-cerella ? 1 : 0
+  name       = "eck"
+  repository = "https://helm.cerella.ai"
+  chart      = "cerella_eck"
+  version    = var.cerella-version
+  depends_on = [aws_eks_cluster.environment]
+  set {
+    name  = "domain"
+    value = var.domain
+  }
+}
+
+resource "helm_release" "cerella_elasticsearch" {
+  count      = var.deploy-cerella ? 1 : 0
+  name       = "elasticsearch"
+  repository = "https://helm.cerella.ai"
+  chart      = "cerella_elasticsearch"
+  version    = var.cerella-version
+  depends_on = [helm_release.cerella_eck]
+  set {
+    name  = "domain"
+    value = var.domain
+  }
+}
+
+resource "helm_release" "cerella_blue" {
+  count      = var.deploy-cerella ? 1 : 0
+  name       = "blue"
+  repository = "https://helm.cerella.ai"
+  chart      = "cerella_blue"
+  version    = var.cerella-version
+  depends_on = [helm_release.cerella_elasticsearch]
+
+  set {
+    name  = "domain"
+    value = var.domain
+  }
+  set {
+    name  = "aws_region"
+    value = var.region
+  }
+}
+
+
+resource "helm_release" "cerella_green" {
+  count      = var.deploy-cerella ? 1 : 0
+  name       = "green"
+  repository = "https://helm.cerella.ai"
+  chart      = "cerella_green"
+  version    = var.cerella-version
+  depends_on = [helm_release.cerella_elasticsearch]
+
+  set {
+    name  = "domain"
+    value = var.domain
+  }
+  set {
+    name  = "aws_region"
+    value = var.region
+  }
+}
