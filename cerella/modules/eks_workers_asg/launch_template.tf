@@ -15,15 +15,17 @@ resource "aws_launch_template" "workers" {
   }
 
   iam_instance_profile {
-    name = aws_iam_instance_profile.worker_nodes.name
+    arn = aws_iam_instance_profile.worker_nodes.arn
   }
-
-  vpc_security_group_ids = var.security_group_ids
 
   monitoring {
     enabled = true
   }
 
+  network_interfaces {
+    associate_public_ip_address = true
+    security_groups = var.security_group_ids
+  }
   metadata_options {
     http_endpoint               = "enabled"
     http_put_response_hop_limit = 2

@@ -3,14 +3,14 @@ locals {
 
 # Node to Join the EKS cluster with the right Tags
 /etc/eks/bootstrap.sh \
-  ${var.cluster_name} \
-  --b64-cluster-ca ${var.eks_cluster_ca_cert} \
-  --apiserver-endpoint ${var.eks_cluster_endpoint} \
+  --apiserver-endpoint '${var.eks_cluster_endpoint}'
+  --b64-cluster-ca '${var.eks_cluster_ca_cert}' \
+  '${var.cluster_name}'
 
 USERDATA
 
   workers_userdata = <<USERDATA
-#!/usr/bin/env bash
+#!/bin/bash
 
 ${local.eks_bootstrap_userdata}
 
