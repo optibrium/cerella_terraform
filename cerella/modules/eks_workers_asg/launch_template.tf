@@ -1,5 +1,5 @@
 resource "aws_launch_template" "workers" {
-  name_prefix   = "${var.cluster-name}-workers"
+  name_prefix   = "${var.cluster_name}-workers"
   image_id      = data.aws_ami.workers.id
   instance_type = var.instance_type
   user_data     = base64encode(local.workers_userdata)
@@ -30,14 +30,14 @@ resource "aws_launch_template" "workers" {
   }
 
   tags ={
-    Name = "${var.cluster-name}-workers"
+    Name = "${var.cluster_name}-workers"
   }
 
   tag_specifications {
     resource_type = "volume"
 
     tags ={
-      Name = "${var.cluster-name}-workers"
+      Name = "${var.cluster_name}-workers"
     }
   }
 

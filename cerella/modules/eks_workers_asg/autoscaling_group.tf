@@ -1,7 +1,7 @@
 resource "aws_autoscaling_group" "workers" {
   max_size            = var.max
   min_size            = var.min
-  name                = "${var.cluster-name}-workers"
+  name                = "${var.cluster_name}-workers"
   vpc_zone_identifier = var.eks_subnet_ids
 
   enabled_metrics = [
@@ -37,7 +37,7 @@ resource "aws_autoscaling_group" "workers" {
   }
 
   tag {
-    key                 = "kubernetes.io/cluster/${var.cluster-name}"
+    key                 = "kubernetes.io/cluster/${var.cluster_name}"
     value               = "owned"
     propagate_at_launch = true
   }
@@ -49,7 +49,7 @@ resource "aws_autoscaling_group" "workers" {
   }
 
   tag {
-    key                 = "k8s.io/cluster-autoscaler/${var.cluster-name}"
+    key                 = "k8s.io/cluster-autoscaler/${var.cluster_name}"
     value               = "owned"
     propagate_at_launch = true
   }
@@ -63,7 +63,7 @@ resource "aws_autoscaling_group" "workers" {
 
   tag {
     key                 = "kubernetescluster"
-    value               = var.cluster-name
+    value               = var.cluster_name
     propagate_at_launch = true
   }
 

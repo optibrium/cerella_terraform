@@ -1,5 +1,5 @@
 resource "aws_iam_role" "worker_nodes" {
-  name = "${var.cluster-name}-workers-${var.eks_cluster.region}"
+  name = "${var.cluster_name}-workers-${var.eks_cluster.region}"
 
   assume_role_policy = data.aws_iam_policy_document.d_workers.json
 
@@ -37,7 +37,7 @@ resource "aws_iam_role_policy_attachment" "worker_nodes_ssm_access" {
 }
 
 resource "aws_iam_instance_profile" "worker_nodes" {
-  name = "worker_nodes_${var.cluster-name}"
+  name = "worker_nodes_${var.cluster_name}"
   role = aws_iam_role.worker_nodes.name
 }
 
