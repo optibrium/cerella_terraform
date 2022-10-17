@@ -1,13 +1,13 @@
 output "iam_arn" {
   description = "The ARN of the IAM instance roles of the workers in the cluster."
 
-  value = aws_iam_role.workers.arn
+  value = aws_iam_role.worker_nodes.arn
 }
 
 output "iam_id" {
   description = "The id of the IAM instance roles of the workers in the cluster."
 
-  value = aws_iam_role.workers.id
+  value = aws_iam_role.worker_nodes.id
 }
 
 output "name" {

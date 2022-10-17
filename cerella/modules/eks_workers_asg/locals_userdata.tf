@@ -3,9 +3,9 @@ locals {
 
 # Node to Join the EKS cluster with the right Tags
 /etc/eks/bootstrap.sh \
-  ${var.eks_cluster.name} \
-  --b64-cluster-ca ${base64encode(var.eks_cluster.ca_cert)} \
-  --apiserver-endpoint ${var.eks_cluster.endpoint} \
+  ${var.cluster_name} \
+  --b64-cluster-ca ${var.eks_cluster_ca_cert} \
+  --apiserver-endpoint ${var.eks_cluster_endpoint} \
 
 USERDATA
 

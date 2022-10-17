@@ -67,36 +67,6 @@ resource "aws_autoscaling_group" "workers" {
     propagate_at_launch = true
   }
 
-  dynamic "tag" {
-    for_each = var.apply_taints ? var.node_taints : {}
-
-    content {
-      key                 = "k8s.io/cluster-autoscaler/node-template/taint/${tag.key}"
-      value               = tag.value
-      propagate_at_launch = true
-    }
-  }
-
-  dynamic "tag" {
-    for_each = var.cluster_autoscaler ? var.node_labels : {}
-
-    content {
-      key                 = "k8s.io/cluster-autoscaler/node-template/label/${tag.key}"
-      value               = tag.value
-      propagate_at_launch = true
-    }
-  }
-
-  dynamic "tag" {
-    for_each = var.tag_group != null ? [1] : []
-
-    content {
-      key                 = "Group"
-      value               = var.tag_group
-      propagate_at_launch = true
-    }
-  }
-
   lifecycle {
     ignore_changes = [target_group_arns]
   }

@@ -23,12 +23,6 @@
 #   })
 # }
 
-# variable "security_group_ids" {
-#   type        = list(string)
-#   description = "The list of security group ID of the workers."
-# }
-
-
 
 # variable "datadog" {
 #   type        = bool
@@ -167,4 +161,21 @@ variable "node_taints" {
   type        = map(string)
   default     = {}
   description = "Taints to add to workers on startup."
+}
+
+variable "security_group_ids" {
+  type        = list(string)
+  description = "The list of security group ID of the workers."
+}
+
+variable "eks_cluster_ca_cert" {
+  type = string
+}
+
+variable "eks_cluster_endpoint" {
+  type = string
+}
+
+variable "eks_cluster_region" {
+  type = string
 }
