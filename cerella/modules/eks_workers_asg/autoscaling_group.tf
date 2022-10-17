@@ -24,8 +24,8 @@ resource "aws_autoscaling_group" "workers" {
   termination_policies  = ["OldestInstance", "OldestLaunchConfiguration", "Default"]
 
   launch_template {
-    id = aws_launch_template.workers.id
-    version            = "$Latest"
+    id      = aws_launch_template.workers.id
+    version = "$Latest"
   }
 
   tag {
@@ -58,11 +58,36 @@ resource "aws_autoscaling_group" "workers" {
     propagate_at_launch = true
   }
 
-
   tag {
     key                 = "kubernetescluster"
     value               = var.cluster_name
     propagate_at_launch = true
+  }
+
+  tag {
+    key                 = "Group"
+    value               = "Cerella"
+    propagate_at_launch = true
+  }
+
+  dynamic "tag" {
+    for_each = var.apply_taints ? var.node_taints : {}
+
+    content {
+      key                 = "k8s.io/cluster-autoscaler/node-template/taint/${tag.key}"
+      value               = tag.value
+      propagate_at_launch = true
+    }
+  }
+
+  dynamic "tag" {
+    for_each = var.apply_taints ? var.node_labels : {}
+
+    content {
+      key                 = "k8s.io/cluster-autoscaler/node-template/label/${tag.key}"
+      value               = tag.value
+      propagate_at_launch = true
+    }
   }
 
   lifecycle {

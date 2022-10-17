@@ -38,7 +38,7 @@ resource "aws_iam_role_policy_attachment" "worker_nodes_ssm_access" {
 
 resource "aws_iam_instance_profile" "worker_nodes" {
   name_prefix = "worker_nodes_${var.cluster_name}"
-  role = aws_iam_role.worker_nodes.name
+  role        = aws_iam_role.worker_nodes.name
 }
 
 data "aws_iam_policy_document" "worker_nodes_describe_tags" {

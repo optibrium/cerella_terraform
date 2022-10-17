@@ -24,7 +24,7 @@ resource "aws_launch_template" "workers" {
 
   network_interfaces {
     associate_public_ip_address = true
-    security_groups = var.security_group_ids
+    security_groups             = var.security_group_ids
   }
   metadata_options {
     http_endpoint               = "enabled"
