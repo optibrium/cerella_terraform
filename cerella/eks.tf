@@ -189,3 +189,7 @@ resource "aws_eks_addon" "coredns" {
   resolve_conflicts = "OVERWRITE"
   depends_on        = [aws_eks_cluster.environment]
 }
+
+module "external_secret_iam_role" {
+  source                        = "./modules/eks_workers_asg"
+}
