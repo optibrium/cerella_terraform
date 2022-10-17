@@ -1,4 +1,4 @@
-data "aws_ami" "eks_ami" {
+data "aws_ami" "workers_ami" {
 
   filter {
     name   = "name"

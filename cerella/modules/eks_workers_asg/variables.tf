@@ -62,19 +62,7 @@
 # }
 
 
-# variable "disk_size" {
-#   type = number
-# }
 
-# variable "disk_type" {
-#   type    = string
-#   default = "gp2"
-# }
-
-# variable "disk_iops" {
-#   type    = number
-#   default = 0
-# }
 
 # variable "spot" {
 #   type = object({
@@ -178,4 +166,22 @@ variable "eks_cluster_endpoint" {
 
 variable "eks_cluster_region" {
   type = string
+}
+
+variable "instance_type" {
+  type = string
+}
+
+variable "disk_size" {
+  type = number
+}
+
+variable "disk_type" {
+  type    = string
+  default = "gp2"
+}
+
+variable "disk_iops" {
+  type    = number
+  default = 0
 }

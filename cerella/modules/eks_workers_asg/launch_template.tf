@@ -1,6 +1,6 @@
 resource "aws_launch_template" "workers" {
   name_prefix   = "${var.cluster_name}-workers"
-  image_id      = data.aws_ami.workers.id
+  image_id      = data.aws_ami.workers_ami.id
   instance_type = var.instance_type
   user_data     = base64encode(local.workers_userdata)
 
