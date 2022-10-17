@@ -191,7 +191,11 @@ resource "aws_eks_addon" "coredns" {
 }
 
 module "eks_workers_asg" {
-  source                        = "./modules/eks_workers_asg"
-  cluster_name = var.cluster-name
-  eks_subnet_ids = [aws_subnet.right.id, aws_subnet.left.id]
+  source               = "./modules/eks_workers_asg"
+  cluster_name         = var.cluster-name
+  eks_subnet_ids       = [aws_subnet.right.id, aws_subnet.left.id]
+  eks_cluster_endpoint = aws_eks_cluster.environment.endpoint
+  security_group_ids   = [aws_security_group.worker_nodes.id]
+  eks_cluster_ca_cert  = aws_eks_cluster.environment.certificate_authority.0.data
+  eks_cluster_region   = var.region
 }

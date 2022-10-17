@@ -29,14 +29,14 @@ resource "aws_launch_template" "workers" {
     http_put_response_hop_limit = 2
   }
 
-  tags ={
+  tags = {
     Name = "${var.cluster_name}-workers"
   }
 
   tag_specifications {
     resource_type = "volume"
 
-    tags ={
+    tags = {
       Name = "${var.cluster_name}-workers"
     }
   }

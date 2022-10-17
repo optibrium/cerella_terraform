@@ -133,12 +133,12 @@ variable "eks_version" {
 }
 
 variable "min" {
-  type = number
+  type    = number
   default = 0
 }
 
 variable "max" {
-  type = number
+  type    = number
   default = 2
 }
 
