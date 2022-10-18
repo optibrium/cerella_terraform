@@ -201,6 +201,7 @@ module "eks_ingest_workers_asg" {
   instance_type               = "t3.large"
   disk_size                   = "20"
   disk_type                   = "gp2"
+  apply_taints                = true
   node_taints                 = { node = "ingest:NoSchedule" }
   node_labels                 = { Type = "ingest" }
   worker_iam_instance_profile = aws_iam_instance_profile.worker_nodes.name
