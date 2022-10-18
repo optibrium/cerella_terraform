@@ -1,5 +1,6 @@
 locals {
   node_taints = join(",", [for key, value in var.node_taints : "${key}=${value}"])
+  node_labels = join(",", [for key, value in var.node_labels : "${key}=${value}"])
 
   eks_bootstrap_userdata = <<USERDATA
 
@@ -16,6 +17,13 @@ if [[ -n "${local.node_taints}" ]]
  then
   KUBELET_EXTRA_ARGS="$KUBELET_EXTRA_ARGS  --register-with-taints=${local.node_taints}"
 fi
+
+# Add Label to node registration if set in the right EC2 Tag
+if [[ -n "${local.node_labels}" ]]
+ then
+  KUBELET_EXTRA_ARGS="$KUBELET_EXTRA_ARGS  --node-labels=${local.node_labels}"
+fi
+
 
 # Node to Join the EKS cluster with the right Tags
 /etc/eks/bootstrap.sh \

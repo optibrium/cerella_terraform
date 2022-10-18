@@ -15,7 +15,7 @@ resource "aws_launch_template" "workers" {
   }
 
   iam_instance_profile {
-    arn = aws_iam_instance_profile.worker_nodes.arn
+    name = var.worker_iam_instance_profile
   }
 
   monitoring {
