@@ -153,3 +153,7 @@ variable "cerella-version" {
 variable "deploy-cerella" {
   default = false
 }
+
+variable "worker_iam_instance_profile" {
+  type    = string
+}

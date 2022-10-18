@@ -80,3 +80,7 @@ variable "node_labels" {
   default     = {}
   description = "Labels to add to workers on startup."
 }
+
+variable "worker_iam_instance_profile" {
+  type    = string
+}
