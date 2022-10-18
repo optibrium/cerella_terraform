@@ -82,5 +82,10 @@ variable "node_labels" {
 }
 
 variable "worker_iam_instance_profile" {
-  type    = string
+  type = string
+}
+
+variable "desired_capacity" {
+  type    = number
+  default = 0
 }

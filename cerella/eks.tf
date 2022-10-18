@@ -190,7 +190,7 @@ resource "aws_eks_addon" "coredns" {
   depends_on        = [aws_eks_cluster.environment]
 }
 
-module "eks_workers_asg" {
+module "eks_ingest_workers_asg" {
   source                      = "./modules/eks_workers_asg"
   cluster_name                = var.cluster-name
   eks_subnet_ids              = [aws_subnet.right.id, aws_subnet.left.id]
@@ -204,4 +204,5 @@ module "eks_workers_asg" {
   node_taints                 = { node = "ingest:NoSchedule" }
   node_labels                 = { Type = "ingest" }
   worker_iam_instance_profile = aws_iam_instance_profile.worker_nodes.name
+  desired_capacity            = var.ingest_node_desired_capacity
 }

@@ -153,3 +153,8 @@ variable "cerella-version" {
 variable "deploy-cerella" {
   default = false
 }
+
+variable "ingest_node_desired_capacity" {
+  type    = number
+  default = 0
+}
