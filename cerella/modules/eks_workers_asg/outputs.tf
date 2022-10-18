@@ -1,15 +1,3 @@
-output "iam_arn" {
-  description = "The ARN of the IAM instance roles of the workers in the cluster."
-
-  value = aws_iam_role.worker_nodes.arn
-}
-
-output "iam_id" {
-  description = "The id of the IAM instance roles of the workers in the cluster."
-
-  value = aws_iam_role.worker_nodes.id
-}
-
 output "name" {
   description = "The Auto Scaling Group name."
 
