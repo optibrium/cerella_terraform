@@ -198,7 +198,7 @@ module "eks_ingest_workers_asg" {
   security_group_ids          = [aws_security_group.worker_nodes.id]
   eks_cluster_ca_cert         = aws_eks_cluster.environment.certificate_authority.0.data
   eks_cluster_region          = var.region
-  instance_type               = "t3.large"
+  instance_type               = var.ingest-instance-type
   disk_size                   = "20"
   disk_type                   = "gp2"
   apply_taints                = true
