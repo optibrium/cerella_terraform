@@ -57,7 +57,7 @@ resource "aws_autoscaling_group" "workers" {
   health_check_grace_period = 300
   launch_configuration      = aws_launch_configuration.workers.id
   max_size                  = 7
-  min_size                  = 3
+  min_size                  = 0
   name                      = "worker_nodes-${var.cluster-name}"
   vpc_zone_identifier       = [aws_subnet.left.id, aws_subnet.right.id]
 
@@ -188,4 +188,22 @@ resource "aws_eks_addon" "coredns" {
   addon_version     = var.coredns_addon_version
   resolve_conflicts = "OVERWRITE"
   depends_on        = [aws_eks_cluster.environment]
+}
+
+module "eks_ingest_workers_asg" {
+  source                      = "./modules/eks_workers_asg"
+  cluster_name                = var.cluster-name
+  eks_subnet_ids              = [aws_subnet.right.id, aws_subnet.left.id]
+  eks_cluster_endpoint        = aws_eks_cluster.environment.endpoint
+  security_group_ids          = [aws_security_group.worker_nodes.id]
+  eks_cluster_ca_cert         = aws_eks_cluster.environment.certificate_authority.0.data
+  eks_cluster_region          = var.region
+  instance_type               = var.ingest-instance-type
+  disk_size                   = "20"
+  disk_type                   = "gp2"
+  apply_taints                = true
+  node_taints                 = { node = "ingest:NoSchedule" }
+  node_labels                 = { Type = "ingest" }
+  worker_iam_instance_profile = aws_iam_instance_profile.worker_nodes.name
+  desired_capacity            = var.ingest_node_desired_capacity
 }

@@ -144,3 +144,21 @@ variable "coredns_addon_version" {
   default = "v1.8.7-eksbuild.1"
   type    = string
 }
+
+
+variable "cerella-version" {
+  default = "1.0.34"
+}
+
+variable "deploy-cerella" {
+  default = false
+}
+
+variable "ingest_node_desired_capacity" {
+  type    = number
+  default = 0
+}
+
+variable "ingest-instance-type" {
+  type = string
+}
