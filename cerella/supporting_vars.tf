@@ -162,3 +162,19 @@ variable "ingest_node_desired_capacity" {
 variable "ingest-instance-type" {
   type = string
 }
+
+variable "override_elasticsearch_defaults" {
+  default = false
+}
+
+variable "override_blue_defaults" {
+  default = false
+}
+
+variable "override_green_defaults" {
+  default = false
+}
+
+variable "override_file_name" {
+  type    = string
+}

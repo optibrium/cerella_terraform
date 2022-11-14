@@ -262,6 +262,7 @@ resource "helm_release" "cerella_elasticsearch" {
   chart      = "cerella_elasticsearch"
   version    = var.cerella-version
   depends_on = [helm_release.cerella_eck]
+  values     = [ var.override_elasticsearch_defaults ? "${file("override-values/${var.override_file_name}")}" : null ]
   set {
     name  = "domain"
     value = var.domain
@@ -275,7 +276,7 @@ resource "helm_release" "cerella_blue" {
   chart      = "cerella_blue"
   version    = var.cerella-version
   depends_on = [helm_release.cerella_elasticsearch]
-
+  values     = [ var.override_blue_defaults ? "${file("override-values/${var.override_file_name}")}" : null ]
   set {
     name  = "domain"
     value = var.domain
@@ -294,6 +295,7 @@ resource "helm_release" "cerella_green" {
   chart      = "cerella_green"
   version    = var.cerella-version
   depends_on = [helm_release.cerella_elasticsearch]
+  values     = [ var.override_green_defaults ? "${file("override-values/${var.override_file_name}")}" : null ]
 
   set {
     name  = "domain"
