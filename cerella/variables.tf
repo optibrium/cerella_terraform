@@ -3,7 +3,11 @@
 # @date November 2021
 #
 
-# This might be overridden
+variable "acm-certificate-arn" {
+  # if empty, then we create a new certificate. Otherwise, we use the existing one
+  default = ""
+}
+
 variable "cidr" {
   default = "10.0.0.0/16"
   type    = string
@@ -26,11 +30,6 @@ variable "domain" {
   type = string
 }
 
-# variable "eks-ami" {
-#   default = "ami-0fd784d3523cda0fa"
-#   type    = string
-# }
-
 # This might be overridden
 variable "eks-instance-count" {
   default = 3
@@ -47,7 +46,8 @@ variable "eks-version" {
 }
 
 variable "hosted-zone-id" {
-  type = string
+  type    = string
+  default = "" # will disable the creation of the DNS record
 }
 
 # Normally this would be IP restricted,
@@ -161,4 +161,22 @@ variable "ingest_node_desired_capacity" {
 
 variable "ingest-instance-type" {
   type = string
+}
+
+variable "eks-ami" {
+  type    = string
+  default = ""
+}
+
+variable "asg_subnets" {
+  type    = list(any)
+  default = []
+}
+
+variable "enable_eks_addons" {
+  default = true
+}
+
+variable "enable_ingest" {
+  default = true
 }

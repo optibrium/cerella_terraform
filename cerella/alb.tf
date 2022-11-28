@@ -4,6 +4,7 @@
 #
 
 resource "aws_route53_record" "star" {
+  count   = var.hosted-zone-id != "" ? 1 : 0
   name    = "*.${var.domain}"
   records = [aws_lb.ingress.dns_name]
   type    = "CNAME"
@@ -21,7 +22,7 @@ resource "aws_lb" "ingress" {
 }
 
 resource "aws_alb_listener" "https_to_workers" {
-  certificate_arn   = aws_acm_certificate.star.arn
+  certificate_arn   = var.acm-certificate-arn != "" ? var.acm-certificate-arn : module.acm[0].start_certificate_arn
   load_balancer_arn = aws_lb.ingress.arn
   port              = 443
   protocol          = "HTTPS"
