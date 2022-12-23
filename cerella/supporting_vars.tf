@@ -162,3 +162,15 @@ variable "ingest_node_desired_capacity" {
 variable "ingest-instance-type" {
   type = string
 }
+
+variable "elasticsearch_override_file_name" {
+  type    = string
+}
+
+variable "cerella_blue_override_file_name" {
+  type    = string
+}
+
+variable "cerella_green_override_file_name" {
+  type    = string
+}
