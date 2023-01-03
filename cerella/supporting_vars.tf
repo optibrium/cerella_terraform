@@ -164,19 +164,19 @@ variable "ingest-instance-type" {
 }
 
 variable "elasticsearch_override_file_name" {
-  # if empty, then helm release will not use file to overirde default values
+  # if empty, then helm release will not use file to override default values
   type    = string
   default = ""
 }
 
 variable "cerella_blue_override_file_name" {
-  # if empty, then helm release will not use file to overirde default values
+  # if empty, then helm release will not use file to override default values
   type    = string
   default = ""
 }
 
 variable "cerella_green_override_file_name" {
-  # if empty, then helm release will not use file to overirde default values
+  # if empty, then helm release will not use file to override default values
   type    = string
   default = ""
 }
