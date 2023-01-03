@@ -162,3 +162,21 @@ variable "ingest_node_desired_capacity" {
 variable "ingest-instance-type" {
   type = string
 }
+
+variable "elasticsearch_override_file_name" {
+  # if empty, then helm release will not use file to override default values
+  type    = string
+  default = ""
+}
+
+variable "cerella_blue_override_file_name" {
+  # if empty, then helm release will not use file to override default values
+  type    = string
+  default = ""
+}
+
+variable "cerella_green_override_file_name" {
+  # if empty, then helm release will not use file to override default values
+  type    = string
+  default = ""
+}
