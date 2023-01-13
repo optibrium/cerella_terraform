@@ -9,6 +9,14 @@ variable "cidr" {
   type    = string
 }
 
+variable "vpc_id" {
+  default = ""
+}
+
+variable "subnet_ids" {
+  default = []
+}
+
 variable "cluster-autoscaler-version" {
   default = "v1.22.3"
 }
