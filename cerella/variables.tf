@@ -153,6 +153,9 @@ variable "coredns_addon_version" {
   type    = string
 }
 
+variable "eks-ami" {
+  default = ""
+}
 
 variable "cerella-version" {
   default = "1.0.34"
