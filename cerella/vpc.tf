@@ -4,7 +4,7 @@
 #
 
 resource "aws_vpc" "environment" {
-
+  count      = local.create_vpc ? 1 : 0
   cidr_block = var.cidr
 
   tags = {
@@ -14,10 +14,10 @@ resource "aws_vpc" "environment" {
 }
 
 resource "aws_subnet" "left" {
-
+  count             = local.create_vpc ? 1 : 0
   availability_zone = var.left-availability-zone
   cidr_block        = var.left-subnet-cidr
-  vpc_id            = aws_vpc.environment.id
+  vpc_id            = local.vpc_id
 
   tags = {
     "Name"                                      = var.cluster-name
@@ -26,10 +26,10 @@ resource "aws_subnet" "left" {
 }
 
 resource "aws_subnet" "right" {
-
+  count             = local.create_vpc ? 1 : 0
   availability_zone = var.right-availability-zone
   cidr_block        = var.right-subnet-cidr
-  vpc_id            = aws_vpc.environment.id
+  vpc_id            = local.vpc_id
 
   tags = {
     "Name"                                      = var.cluster-name
@@ -38,8 +38,8 @@ resource "aws_subnet" "right" {
 }
 
 resource "aws_internet_gateway" "environment" {
-
-  vpc_id = aws_vpc.environment.id
+  count  = local.create_vpc ? 1 : 0
+  vpc_id = local.vpc_id
 
   tags = {
     "Name"                                      = var.cluster-name
@@ -48,23 +48,23 @@ resource "aws_internet_gateway" "environment" {
 }
 
 resource "aws_route_table" "environment" {
-
-  vpc_id = aws_vpc.environment.id
+  count  = local.create_vpc ? 1 : 0
+  vpc_id = local.vpc_id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.environment.id
+    gateway_id = aws_internet_gateway.environment[0].id
   }
 }
 
 resource "aws_route_table_association" "left" {
-
-  subnet_id      = aws_subnet.left.id
-  route_table_id = aws_route_table.environment.id
+  count          = local.create_vpc ? 1 : 0
+  subnet_id      = aws_subnet.left[0].id
+  route_table_id = aws_route_table.environment[0].id
 }
 
 resource "aws_route_table_association" "right" {
-
-  subnet_id      = aws_subnet.right.id
-  route_table_id = aws_route_table.environment.id
+  count          = local.create_vpc ? 1 : 0
+  subnet_id      = aws_subnet.right[0].id
+  route_table_id = aws_route_table.environment[0].id
 }
