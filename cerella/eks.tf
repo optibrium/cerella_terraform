@@ -35,7 +35,7 @@ data "aws_ami" "eks_ami" {
 resource "aws_launch_configuration" "workers" {
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.worker_nodes.name
-  image_id                    = data.aws_ami.eks_ami.image_id
+  image_id                    = var.eks-ami != "" ? var.eks-ami : data.aws_ami.eks_ami.image_id
   instance_type               = var.eks-instance-type
   key_name                    = "cerella-${var.cluster-name}"
   name_prefix                 = "eks_workers"
@@ -165,6 +165,7 @@ locals {
 # Addon
 # Kube Proxy
 resource "aws_eks_addon" "kube_proxy" {
+  count             = var.enable_eks_addons ? 1 : 0
   cluster_name      = aws_eks_cluster.environment.name
   addon_name        = "kube-proxy"
   addon_version     = var.kube_proxy_addon_version
@@ -174,6 +175,7 @@ resource "aws_eks_addon" "kube_proxy" {
 
 # Kube Proxy
 resource "aws_eks_addon" "vpc_cni" {
+  count             = var.enable_eks_addons ? 1 : 0
   cluster_name      = aws_eks_cluster.environment.name
   addon_name        = "vpc-cni"
   addon_version     = var.vpc_cni_addon_version
@@ -183,6 +185,7 @@ resource "aws_eks_addon" "vpc_cni" {
 
 # Coredns
 resource "aws_eks_addon" "coredns" {
+  count             = var.enable_eks_addons ? 1 : 0
   cluster_name      = aws_eks_cluster.environment.name
   addon_name        = "coredns"
   addon_version     = var.coredns_addon_version
@@ -191,6 +194,7 @@ resource "aws_eks_addon" "coredns" {
 }
 
 module "eks_ingest_workers_asg" {
+  count                       = var.enable_ingest ? 1 : 0
   source                      = "./modules/eks_workers_asg"
   cluster_name                = var.cluster-name
   eks_subnet_ids              = local.subnet_ids
