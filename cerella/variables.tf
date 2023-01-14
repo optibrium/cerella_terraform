@@ -13,6 +13,14 @@ variable "cidr" {
   type    = string
 }
 
+variable "vpc_id" {
+  default = ""
+}
+
+variable "subnet_ids" {
+  default = []
+}
+
 variable "cluster-autoscaler-version" {
   default = "v1.22.3"
 }
@@ -163,20 +171,28 @@ variable "ingest-instance-type" {
   type = string
 }
 
-variable "eks-ami" {
-  type    = string
-  default = ""
-}
-
-variable "asg_subnets" {
-  type    = list(any)
-  default = []
-}
-
 variable "enable_eks_addons" {
   default = true
 }
 
 variable "enable_ingest" {
   default = true
+}
+
+variable "elasticsearch_override_file_name" {
+  # if empty, then helm release will not use file to override default values
+  type    = string
+  default = ""
+}
+
+variable "cerella_blue_override_file_name" {
+  # if empty, then helm release will not use file to override default values
+  type    = string
+  default = ""
+}
+
+variable "cerella_green_override_file_name" {
+  # if empty, then helm release will not use file to override default values
+  type    = string
+  default = ""
 }

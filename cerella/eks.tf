@@ -17,7 +17,7 @@ resource "aws_eks_cluster" "environment" {
 
   vpc_config {
     security_group_ids = [aws_security_group.control_plane.id]
-    subnet_ids         = [aws_subnet.right.id, aws_subnet.left.id]
+    subnet_ids         = local.subnet_ids
   }
 }
 
@@ -55,11 +55,11 @@ resource "aws_autoscaling_group" "workers" {
 
   desired_capacity          = var.eks-instance-count
   health_check_grace_period = 300
-  launch_configuration      = aws_launch_configuration.workers.id
+  launch_configuration       = aws_launch_configuration.workers.id
   max_size                  = 7
   min_size                  = 0
   name                      = "worker_nodes-${var.cluster-name}"
-  vpc_zone_identifier       = length(var.asg_subnets) > 0 ? var.asg_subnets : [aws_subnet.left.id, aws_subnet.right.id]
+  vpc_zone_identifier        = local.subnet_ids
 
   tag {
     key                 = "Name"
@@ -197,13 +197,13 @@ module "eks_ingest_workers_asg" {
   count                       = var.enable_ingest ? 1 : 0
   source                      = "./modules/eks_workers_asg"
   cluster_name                = var.cluster-name
-  eks_subnet_ids              = [aws_subnet.right.id, aws_subnet.left.id]
+  eks_subnet_ids              = local.subnet_ids
   eks_cluster_endpoint        = aws_eks_cluster.environment.endpoint
   security_group_ids          = [aws_security_group.worker_nodes.id]
   eks_cluster_ca_cert         = aws_eks_cluster.environment.certificate_authority.0.data
   eks_cluster_region          = var.region
   instance_type               = var.ingest-instance-type
-  disk_size                   = "20"
+  disk_size                   = "100"
   disk_type                   = "gp2"
   apply_taints                = true
   node_taints                 = { node = "ingest:NoSchedule" }

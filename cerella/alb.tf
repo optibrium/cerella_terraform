@@ -17,7 +17,7 @@ resource "aws_lb" "ingress" {
   load_balancer_type = "application"
   name               = var.cluster-name
   security_groups    = [aws_security_group.ingress.id]
-  subnets            = [aws_subnet.left.id, aws_subnet.right.id]
+  subnets            = local.subnet_ids
   idle_timeout       = 300
 }
 
@@ -40,7 +40,7 @@ resource "aws_alb_target_group" "workers" {
   name     = "eks-workers-${var.cluster-name}"
   port     = var.cluster-ingress-port
   protocol = "HTTP"
-  vpc_id   = aws_vpc.environment.id
+  vpc_id   = local.vpc_id
   health_check {
     enabled           = true
     healthy_threshold = 4

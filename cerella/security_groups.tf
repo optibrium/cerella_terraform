@@ -6,7 +6,7 @@
 resource "aws_security_group" "worker_nodes" {
   description = "worker node communication"
   name        = "worker_nodes"
-  vpc_id      = aws_vpc.environment.id
+  vpc_id      = local.vpc_id
 
   egress {
     from_port   = 0
@@ -24,7 +24,7 @@ resource "aws_security_group" "worker_nodes" {
 resource "aws_security_group" "control_plane" {
   description = "cluster endpoint communication"
   name        = "control_plane"
-  vpc_id      = aws_vpc.environment.id
+  vpc_id      = local.vpc_id
 
   egress {
     from_port   = 0
@@ -42,7 +42,7 @@ resource "aws_security_group" "control_plane" {
 resource "aws_security_group" "ingress" {
   description = "entry via the ALB"
   name        = "ingress"
-  vpc_id      = aws_vpc.environment.id
+  vpc_id      = local.vpc_id
 
   egress {
     from_port   = 0
