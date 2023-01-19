@@ -17,7 +17,11 @@ variable "vpc_id" {
   default = ""
 }
 
-variable "subnet_ids" {
+variable "private_subnet_ids" {
+  default = []
+}
+
+variable "public_subnet_ids" {
   default = []
 }
 

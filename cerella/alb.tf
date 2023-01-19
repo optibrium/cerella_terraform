@@ -17,7 +17,7 @@ resource "aws_lb" "ingress" {
   load_balancer_type = "application"
   name               = var.cluster-name
   security_groups    = [aws_security_group.ingress.id]
-  subnets            = local.subnet_ids
+  subnets            = local.public_subnet_ids
   idle_timeout       = 300
 }
 

@@ -17,7 +17,7 @@ resource "aws_eks_cluster" "environment" {
 
   vpc_config {
     security_group_ids = [aws_security_group.control_plane.id]
-    subnet_ids         = local.subnet_ids
+    subnet_ids         = local.private_subnet_ids
   }
 }
 
@@ -59,7 +59,7 @@ resource "aws_autoscaling_group" "workers" {
   max_size                  = 7
   min_size                  = 0
   name                      = "worker_nodes-${var.cluster-name}"
-  vpc_zone_identifier        = local.subnet_ids
+  vpc_zone_identifier        = local.private_subnet_ids
 
   tag {
     key                 = "Name"
@@ -197,7 +197,7 @@ module "eks_ingest_workers_asg" {
   count                       = var.enable_ingest ? 1 : 0
   source                      = "./modules/eks_workers_asg"
   cluster_name                = var.cluster-name
-  eks_subnet_ids              = local.subnet_ids
+  eks_subnet_ids              = local.private_subnet_ids
   eks_cluster_endpoint        = aws_eks_cluster.environment.endpoint
   security_group_ids          = [aws_security_group.worker_nodes.id]
   eks_cluster_ca_cert         = aws_eks_cluster.environment.certificate_authority.0.data
