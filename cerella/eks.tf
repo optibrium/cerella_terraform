@@ -90,40 +90,8 @@ resource "aws_autoscaling_group" "workers" {
   }
 }
 
-data "aws_eks_cluster_auth" "environment_auth" {
-  name = var.cluster-name
-}
-
-provider "kubernetes" {
-  host                   = aws_eks_cluster.environment.endpoint
-  cluster_ca_certificate = base64decode(aws_eks_cluster.environment.certificate_authority.0.data)
-  token                  = data.aws_eks_cluster_auth.environment_auth.token
-}
-
 data "aws_caller_identity" "current" {}
 
-resource "kubernetes_config_map" "aws_auth_configmap" {
-  metadata {
-    name      = "aws-auth"
-    namespace = "kube-system"
-  }
-
-  data = {
-    mapRoles = <<AUTH
-- rolearn: ${aws_iam_role.worker_nodes.arn}
-  username: system:node:{{EC2PrivateDNSName}}
-  groups:
-    - system:bootstrappers
-    - system:nodes
-- rolearn: "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSControlTowerExecution"
-  username: ControlTowerAccess
-  groups:
-    - system:masters
-AUTH
-  }
-
-  depends_on = [aws_eks_cluster.environment]
-}
 
 locals {
 

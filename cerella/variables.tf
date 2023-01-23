@@ -203,3 +203,7 @@ variable "cerella_green_override_file_name" {
   type    = string
   default = ""
 }
+
+variable "alb_privacy" {
+  default = false
+}

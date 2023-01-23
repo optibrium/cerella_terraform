@@ -13,7 +13,7 @@ resource "aws_route53_record" "star" {
 }
 
 resource "aws_lb" "ingress" {
-  internal           = false
+  internal           = var.alb_privacy
   load_balancer_type = "application"
   name               = var.cluster-name
   security_groups    = [aws_security_group.ingress.id]
