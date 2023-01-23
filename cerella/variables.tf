@@ -203,3 +203,9 @@ variable "cerella_green_override_file_name" {
   type    = string
   default = ""
 }
+
+
+variable "create_secrets" {
+  type    = bool
+  default = false
+}

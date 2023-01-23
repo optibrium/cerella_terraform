@@ -276,7 +276,7 @@ resource "helm_release" "cerella_blue" {
   chart      = "cerella_blue"
   version    = var.cerella-version
   depends_on = [helm_release.cerella_elasticsearch]
-  values     =  var.cerella_blue_override_file_name != "" ? ["${file("helm-override-values/${var.cerella_blue_override_file_name}")}"] : []
+  values     = var.cerella_blue_override_file_name != "" ? ["${file("helm-override-values/${var.cerella_blue_override_file_name}")}"] : []
   set {
     name  = "domain"
     value = var.domain

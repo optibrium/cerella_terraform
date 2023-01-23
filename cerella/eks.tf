@@ -55,11 +55,11 @@ resource "aws_autoscaling_group" "workers" {
 
   desired_capacity          = var.eks-instance-count
   health_check_grace_period = 300
-  launch_configuration       = aws_launch_configuration.workers.id
+  launch_configuration      = aws_launch_configuration.workers.id
   max_size                  = 7
   min_size                  = 0
   name                      = "worker_nodes-${var.cluster-name}"
-  vpc_zone_identifier        = local.private_subnet_ids
+  vpc_zone_identifier       = local.private_subnet_ids
 
   tag {
     key                 = "Name"

@@ -4,12 +4,12 @@ resource "random_password" "admin_password" {
   numeric = true
   upper   = true
   lower   = true
-   lifecycle {
+  lifecycle {
     ignore_changes = [
       length,
     ]
   }
-  
+
 }
 
 resource "random_password" "ingest_password" {
@@ -21,11 +21,12 @@ resource "random_password" "ingest_password" {
 }
 
 resource "aws_secretsmanager_secret" "cerella_admin" {
-  name = "CERELLA_ADMIN"
+  count = var.create_secrets ? 1: 0
+  name  = "CERELLA_ADMIN"
 }
 
 resource "aws_secretsmanager_secret_version" "cerella_admin" {
-  secret_id     = aws_secretsmanager_secret.cerella_admin.id
+  secret_id = aws_secretsmanager_secret.cerella_admin[0].id
   lifecycle {
     ignore_changes = [
       secret_string,
@@ -40,11 +41,12 @@ EOF
 }
 
 resource "aws_secretsmanager_secret" "cerella_ingest" {
-  name = "CERELLA_INGEST"
+  count = var.create_secrets ? 1 : 0
+  name  = "CERELLA_INGEST"
 }
 
 resource "aws_secretsmanager_secret_version" "cerella_ingest" {
-  secret_id     = aws_secretsmanager_secret.cerella_ingest.id
+  secret_id = aws_secretsmanager_secret.cerella_ingest[0].id
   lifecycle {
     ignore_changes = [
       secret_string,
@@ -60,12 +62,13 @@ EOF
 }
 
 resource "aws_secretsmanager_secret" "cerella_licence" {
-  name = "CERELLA_LICENCE"
+  count = var.create_secrets ? 1 : 0
+    name  = "CERELLA_LICENCE"
 }
 
 
 resource "aws_secretsmanager_secret_version" "cerella_licence" {
-  secret_id     = aws_secretsmanager_secret.cerella_licence.id
+  secret_id = aws_secretsmanager_secret.cerella_licence[0].id
   lifecycle {
     ignore_changes = [
       secret_string,
