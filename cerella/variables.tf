@@ -203,3 +203,19 @@ variable "cerella_green_override_file_name" {
   type    = string
   default = ""
 }
+
+variable "intellegens_intermediate_licence" {
+  default = ""
+}
+
+variable "intellegens_licence" {
+  default = ""
+}
+
+variable "cdd_token" {
+  default = ""
+}
+
+variable "create_secretsmanager" {
+  default = false
+}
