@@ -1,8 +1,3 @@
-#
-# @author GDev
-# @date November 2020
-#
-
 terraform {
   backend "s3" {
     bucket  = "<Your S3 terraform backend bucket>"
