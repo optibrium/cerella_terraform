@@ -130,39 +130,7 @@ locals {
   depends_on   = [aws_iam_openid_connect_provider.oidc_identity_provider]
 }
 
-# Addon
-# Kube Proxy
-resource "aws_eks_addon" "kube_proxy" {
-  count             = var.enable_eks_addons ? 1 : 0
-  cluster_name      = aws_eks_cluster.environment.name
-  addon_name        = "kube-proxy"
-  addon_version     = var.kube_proxy_addon_version
-  resolve_conflicts = "OVERWRITE"
-  depends_on        = [aws_eks_cluster.environment]
-}
-
-# Kube Proxy
-resource "aws_eks_addon" "vpc_cni" {
-  count             = var.enable_eks_addons ? 1 : 0
-  cluster_name      = aws_eks_cluster.environment.name
-  addon_name        = "vpc-cni"
-  addon_version     = var.vpc_cni_addon_version
-  resolve_conflicts = "OVERWRITE"
-  depends_on        = [aws_eks_cluster.environment]
-}
-
-# Coredns
-resource "aws_eks_addon" "coredns" {
-  count             = var.enable_eks_addons ? 1 : 0
-  cluster_name      = aws_eks_cluster.environment.name
-  addon_name        = "coredns"
-  addon_version     = var.coredns_addon_version
-  resolve_conflicts = "OVERWRITE"
-  depends_on        = [aws_eks_cluster.environment]
-}
-
 module "eks_ingest_workers_asg" {
-  count                       = var.enable_ingest ? 1 : 0
   source                      = "./modules/eks_workers_asg"
   cluster_name                = var.cluster-name
   eks_subnet_ids              = local.private_subnet_ids

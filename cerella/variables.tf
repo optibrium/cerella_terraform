@@ -91,14 +91,7 @@ variable "prometheus-chart-version" {
 }
 
 variable "region" {
-  default = "eu-west-1"
   type    = string
-}
-
-variable "registry_password" {
-}
-
-variable "registry_username" {
 }
 
 variable "right-availability-zone" {
@@ -181,11 +174,6 @@ variable "ingest-instance-type" {
 variable "enable_eks_addons" {
   default = true
 }
-
-variable "enable_ingest" {
-  default = true
-}
-
 variable "elasticsearch_override_file_name" {
   # if empty, then helm release will not use file to override default values
   type    = string
@@ -205,5 +193,20 @@ variable "cerella_green_override_file_name" {
 }
 
 variable "alb_privacy" {
+  default = false
+}
+variable "intellegens_intermediate_licence" {
+  default = ""
+}
+
+variable "intellegens_licence" {
+  default = ""
+}
+
+variable "cdd_token" {
+  default = ""
+}
+
+variable "create_secretsmanager" {
   default = false
 }

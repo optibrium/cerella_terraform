@@ -23,3 +23,18 @@ output "service_account_yaml" {
 HERE
 
 }
+
+output "worker_nodes_iam_role_arn" {
+  description = "ARN of worker nodes IAM role"
+  value       = try(aws_iam_role.worker_nodes.arn, "")
+}
+
+output "external_secret_iam_role_arn" {
+  description = "ARN of external secret IAM role"
+  value       = try(module.external_secret_iam_role.iam_role_arn, "")
+}
+
+output "ingest_irsa_iam_role_name" {
+  description = "ARN of ingest IRSA IAM role"
+  value       = try(module.ingest_irsa_iam_role.iam_role_name, "")
+}
