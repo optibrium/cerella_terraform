@@ -38,3 +38,18 @@ output "ingest_irsa_iam_role_name" {
   description = "ARN of ingest IRSA IAM role"
   value       = try(module.ingest_irsa_iam_role.iam_role_name, "")
 }
+
+output "eks_cluster_endpoint" {
+  description = "EKS Cluster endpoint"
+  value       = try(aws_eks_cluster.environment.endpoint, "")
+}
+
+output "eks_cluster_ca_certificate" {
+  description = "EKS Cluster CA Cert"
+  value       = try(base64decode(aws_eks_cluster.environment.certificate_authority.0.data), "")
+}
+
+output "eks_cluster_token" {
+  description = "EKS Cluster Token"
+  value       = try(data.aws_eks_cluster_auth.environment_auth.token, "")
+}

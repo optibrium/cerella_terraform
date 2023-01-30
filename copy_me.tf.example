@@ -12,6 +12,12 @@ provider "aws" {
   region  = "eu-west-1"
 }
 
+provider "kubernetes" {
+  host                   = module.cerella.eks_cluster_endpoint
+  cluster_ca_certificate = module.cerella.eks_cluster_ca_certificate
+  token                  = module.cerella.eks_cluster_token
+}
+
 module "cerella" {
 
   source             = "git::https://github.com/optibrium/cerella_terraform.git//cerella?ref=v1.2.2"
