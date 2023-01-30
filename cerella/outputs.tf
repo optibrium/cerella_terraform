@@ -53,3 +53,9 @@ output "eks_cluster_token" {
   description = "EKS Cluster Token"
   value       = try(data.aws_eks_cluster_auth.environment_auth.token, "")
 }
+
+output "ingest_user_password" {
+  description = "Password for ingest username"
+  value       = try(random_password.ingest_password[0].result, "")
+}
+
