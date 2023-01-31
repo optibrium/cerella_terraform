@@ -59,3 +59,7 @@ output "ingest_user_password" {
   value       = try(random_password.ingest_password[0].result, "")
 }
 
+output "eks_cluster_name" {
+  description = "EKS Cluster name"
+  value = try(aws_eks_cluster.environment.id, "")
+}
