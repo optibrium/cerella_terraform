@@ -1,8 +1,3 @@
-#
-# @author GDev
-# @date November 2020
-#
-
 terraform {
   backend "s3" {
     bucket  = "<Your S3 terraform backend bucket>"
@@ -15,6 +10,12 @@ terraform {
 provider "aws" {
   profile = "<Your AWS profile name>"
   region  = "eu-west-1"
+}
+
+provider "kubernetes" {
+  host                   = module.cerella.eks_cluster_endpoint
+  cluster_ca_certificate = module.cerella.eks_cluster_ca_certificate
+  token                  = module.cerella.eks_cluster_token
 }
 
 module "cerella" {

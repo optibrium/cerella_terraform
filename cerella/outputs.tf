@@ -23,3 +23,39 @@ output "service_account_yaml" {
 HERE
 
 }
+
+output "worker_nodes_iam_role_arn" {
+  description = "ARN of worker nodes IAM role"
+  value       = try(aws_iam_role.worker_nodes.arn, "")
+}
+
+output "external_secret_iam_role_arn" {
+  description = "ARN of external secret IAM role"
+  value       = try(module.external_secret_iam_role.iam_role_arn, "")
+}
+
+output "ingest_irsa_iam_role_name" {
+  description = "ARN of ingest IRSA IAM role"
+  value       = try(module.ingest_irsa_iam_role.iam_role_name, "")
+}
+
+output "eks_cluster_endpoint" {
+  description = "EKS Cluster endpoint"
+  value       = try(aws_eks_cluster.environment.endpoint, "")
+}
+
+output "eks_cluster_ca_certificate" {
+  description = "EKS Cluster CA Cert"
+  value       = try(base64decode(aws_eks_cluster.environment.certificate_authority.0.data), "")
+}
+
+output "eks_cluster_token" {
+  description = "EKS Cluster Token"
+  value       = try(data.aws_eks_cluster_auth.environment_auth.token, "")
+}
+
+output "ingest_user_password" {
+  description = "Password for ingest username"
+  value       = try(random_password.ingest_password[0].result, "")
+}
+

@@ -90,17 +90,11 @@ resource "aws_autoscaling_group" "workers" {
   }
 }
 
+data "aws_caller_identity" "current" {}
+
 data "aws_eks_cluster_auth" "environment_auth" {
   name = var.cluster-name
 }
-
-provider "kubernetes" {
-  host                   = aws_eks_cluster.environment.endpoint
-  cluster_ca_certificate = base64decode(aws_eks_cluster.environment.certificate_authority.0.data)
-  token                  = data.aws_eks_cluster_auth.environment_auth.token
-}
-
-data "aws_caller_identity" "current" {}
 
 resource "kubernetes_config_map" "aws_auth_configmap" {
   metadata {
@@ -192,9 +186,7 @@ resource "aws_eks_addon" "coredns" {
   resolve_conflicts = "OVERWRITE"
   depends_on        = [aws_eks_cluster.environment]
 }
-
 module "eks_ingest_workers_asg" {
-  count                       = var.enable_ingest ? 1 : 0
   source                      = "./modules/eks_workers_asg"
   cluster_name                = var.cluster-name
   eks_subnet_ids              = local.private_subnet_ids
