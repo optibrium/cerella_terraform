@@ -26,11 +26,11 @@ module "cerella" {
   cluster-name                     = "<EKS Cluster name>"
   eks-instance-type                = "t3.large"
   eks-instance-count               = "4"
-  ingress-cidr                     = [<The client source CIDR>]
+  ingress-cidr                     = ["Client source CIDR"]
   ingest-instance-type             = "t3.2xlarge"
   vpc_id                           = "<Your VPC ID>"
-  private_subnet_ids               = [<List of private subnet ids>]
-  public_subnet_ids                = [<List of public subnet ids>]
+  private_subnet_ids               = ["List of private subnet ids"]
+  public_subnet_ids                = ["List of public subnet ids"] # If there are no public subnets then use private cidr here
   create_secretsmanager            = "true"
   region                           = "<AWS region>"
   intellegens_intermediate_licence = ""

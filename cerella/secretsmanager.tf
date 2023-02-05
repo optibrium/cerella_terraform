@@ -25,7 +25,7 @@ resource "aws_kms_ciphertext" "ingest_username_encrypted" {
 resource "aws_kms_ciphertext" "ingest_password_encrypted" {
   key_id = module.ingest_kms_key.key_id
 
-  plaintext = "${random_password.ingest_password[0].result}"
+  plaintext = random_password.ingest_password[0].result
 }
 
 resource "aws_secretsmanager_secret" "cerella_admin" {

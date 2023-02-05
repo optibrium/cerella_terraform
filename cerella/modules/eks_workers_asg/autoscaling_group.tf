@@ -21,7 +21,7 @@ resource "aws_autoscaling_group" "workers" {
     "GroupTotalInstances",
   ]
 
-  termination_policies  = ["OldestInstance", "OldestLaunchConfiguration", "Default"]
+  termination_policies = ["OldestInstance", "OldestLaunchConfiguration", "Default"]
 
   launch_template {
     id      = aws_launch_template.workers.id

@@ -61,5 +61,5 @@ output "ingest_user_password" {
 
 output "eks_cluster_name" {
   description = "EKS Cluster name"
-  value = try(aws_eks_cluster.environment.id, "")
+  value       = try(aws_eks_cluster.environment.id, "")
 }

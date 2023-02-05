@@ -91,7 +91,7 @@ variable "prometheus-chart-version" {
 }
 
 variable "region" {
-  type    = string
+  type = string
 }
 
 variable "right-availability-zone" {
@@ -168,7 +168,8 @@ variable "ingest_node_desired_capacity" {
 }
 
 variable "ingest-instance-type" {
-  type = string
+  type                 = string
+  ingest-instance-type = "t3.2xlarge"
 }
 
 variable "enable_eks_addons" {
