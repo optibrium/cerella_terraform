@@ -27,7 +27,7 @@ module "cerella" {
   eks-instance-type                = "t3.large"
   eks-instance-count               = "4"
   ingress-cidr                     = [<The client source CIDR>]
-  ingest-instance-type             = "t3.large"
+  ingest-instance-type             = "t3.2xlarge"
   vpc_id                           = "<Your VPC ID>"
   private_subnet_ids               = [<List of private subnet ids>]
   public_subnet_ids                = [<List of public subnet ids>]
