@@ -20,7 +20,7 @@ provider "kubernetes" {
 
 module "cerella" {
 
-  source               = "git::https://github.com/optibrium/cerella_terraform.git//cerella?ref=v1.2.2"
+  source               = "git::https://github.com/optibrium/cerella_terraform.git//cerella?ref=v1.5.9"
   hosted-zone-id       = "<Your Hosted Zone ID>"
   domain               = "<Your DNS domain>"
   cluster-name         = "<Please contact support>"
