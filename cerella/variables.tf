@@ -168,8 +168,8 @@ variable "ingest_node_desired_capacity" {
 }
 
 variable "ingest-instance-type" {
-  type                 = string
-  ingest-instance-type = "t3.2xlarge"
+  type    = string
+  default = "t3.2xlarge"
 }
 
 variable "enable_eks_addons" {
