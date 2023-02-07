@@ -21,8 +21,7 @@ resource "aws_autoscaling_group" "workers" {
     "GroupTotalInstances",
   ]
 
-  max_instance_lifetime = var.max_lifetime * 24 * 3600 # Convert days to seconds
-  termination_policies  = ["OldestInstance", "OldestLaunchConfiguration", "Default"]
+  termination_policies = ["OldestInstance", "OldestLaunchConfiguration", "Default"]
 
   launch_template {
     id      = aws_launch_template.workers.id
