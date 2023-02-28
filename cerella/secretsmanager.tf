@@ -54,8 +54,8 @@ resource "aws_secretsmanager_secret_version" "cerella_ingest" {
   secret_id     = aws_secretsmanager_secret.cerella_ingest[0].id
   secret_string = <<EOF
    {
-    "INGEST_USERNAME": "${aws_kms_ciphertext.ingest_username_encrypted.ciphertext_blob}",
-    "INGEST_PASSWORD": "${aws_kms_ciphertext.ingest_password_encrypted.ciphertext_blob}",
+    "INGEST_USERNAME": "${aws_kms_ciphertext.ingest_username_encrypted[0].ciphertext_blob}",
+    "INGEST_PASSWORD": "${aws_kms_ciphertext.ingest_password_encrypted[0].ciphertext_blob}",
     "CDD_TOKEN": "${var.cdd_token}"
    }
 EOF
