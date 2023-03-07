@@ -19,6 +19,9 @@ resource "aws_eks_cluster" "environment" {
     security_group_ids = [aws_security_group.control_plane.id]
     subnet_ids         = local.private_subnet_ids
   }
+  tags = {
+    STATEFUL = "true"
+  }
 }
 
 data "aws_ami" "eks_ami" {
@@ -31,6 +34,8 @@ data "aws_ami" "eks_ami" {
   most_recent = true
   owners      = ["amazon"]
 }
+
+data "aws_default_tags" "current" {}
 
 resource "aws_launch_configuration" "workers" {
   associate_public_ip_address = true
@@ -83,6 +88,15 @@ resource "aws_autoscaling_group" "workers" {
     key                 = "k8s.io/cluster-autoscaler/enabled"
     value               = "true"
     propagate_at_launch = true
+  }
+
+  dynamic "tag" {
+    for_each = data.aws_default_tags.current.tags
+    content {
+      key                 = tag.key
+      value               = tag.value
+      propagate_at_launch = true
+    }
   }
 
   lifecycle {
