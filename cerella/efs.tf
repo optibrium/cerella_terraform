@@ -3,6 +3,51 @@ data "aws_subnet" "subnets" {
   id       = each.value
 }
 
+resource "aws_iam_policy" "efs_csi_driver" {
+  count  = var.efs_enabled ? 1 : 0
+  name   = "efs_csi_driver_${var.name}"
+  policy = data.aws_iam_policy_document.efs_csi_driver.json
+}
+
+data "aws_iam_policy_document" "efs_csi_driver" {
+  statement {
+    effect  = "Allow"
+    actions = [
+      "elasticfilesystem:DescribeAccessPoints",
+      "elasticfilesystem:DescribeFileSystems",
+      "elasticfilesystem:DescribeMountTargets",
+      "ec2:DescribeAvailabilityZones"
+    ]
+    resources = ["*"]
+  }
+
+  statement {
+    effect  = "Allow"
+    actions = [
+      "elasticfilesystem:CreateAccessPoint"
+    ]
+    resources = ["*"]
+    condition {
+      test     = "StringLike"
+      values   = ["true"]
+      variable = "aws:RequestTag/efs.csi.aws.com/cluster"
+    }
+  }
+
+  statement {
+    effect  = "Allow"
+    actions = [
+      "elasticfilesystem:DeleteAccessPoint"
+    ]
+    resources = ["*"]
+    condition {
+      test     = "StringEquals"
+      values   = ["true"]
+      variable = "aws:ResourceTag/efs.csi.aws.com/cluster"
+    }
+  }
+}
+
 module "efs" {
   count  = var.efs_enabled ? 1 : 0
   source = "terraform-aws-modules/efs/aws"
@@ -48,4 +93,20 @@ resource "aws_kms_key" "efs" {
   description             = "EFS Secret Encryption Key for efs-${var.cluster-name}"
   deletion_window_in_days = 7
   enable_key_rotation     = true
+}
+
+module "efs_csi_controller_oidc" {
+  count   = var.efs_enabled ? 1 : 0
+  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
+  version = "~> 4.0"
+
+  create_role                   = true
+  role_name                     = "${var.cluster-name}-efs"
+  provider_url                  = local.provider_url
+  role_policy_arns              = [aws_iam_policy.efs_csi_driver[0].arn]
+  oidc_fully_qualified_subjects = [
+    "system:serviceaccount:kube-system:efs-csi-controller-sa",
+    "system:serviceaccount:kube-system:efs-csi-node-sa"
+  ]
+  oidc_fully_qualified_audiences = ["sts.amazonaws.com"]
 }
