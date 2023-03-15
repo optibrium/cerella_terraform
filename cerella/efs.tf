@@ -5,7 +5,7 @@ data "aws_subnet" "subnets" {
 
 resource "aws_iam_policy" "efs_csi_driver" {
   count  = var.efs_enabled ? 1 : 0
-  name   = "efs_csi_driver_${var.name}"
+  name   = "efs_csi_driver_${var.cluster-name}"
   policy = data.aws_iam_policy_document.efs_csi_driver.json
 }
 
