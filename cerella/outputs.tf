@@ -67,3 +67,13 @@ output "eks_cluster_name" {
 output "cloudwatch_role_arn" {
   value = module.cloudwatch_logs_iam_role.iam_role_arn
 }
+
+output "efs_fs_id" {
+  condition = var.efs_enabled
+  value     = module.efs[0].id
+}
+
+output "efs_iam_role_arn" {
+  condition = var.efs_enabled
+  value     = module.efs_csi_controller_oidc.iam_role_arn
+}
