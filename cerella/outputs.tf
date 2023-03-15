@@ -69,11 +69,9 @@ output "cloudwatch_role_arn" {
 }
 
 output "efs_fs_id" {
-  condition = var.efs_enabled
-  value     = module.efs[0].id
+  value = var.efs_enabled ? module.efs[0].id : ""
 }
 
 output "efs_iam_role_arn" {
-  condition = var.efs_enabled
-  value     = module.efs_csi_controller_oidc.iam_role_arn
+  value = var.efs_enabled ? module.efs_csi_controller_oidc[0].iam_role_arn : ""
 }
