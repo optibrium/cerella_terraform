@@ -1,3 +1,5 @@
+data "aws_default_tags" "current" {}
+
 resource "aws_autoscaling_group" "workers" {
   max_size            = var.max
   min_size            = var.min
@@ -97,7 +99,7 @@ resource "aws_autoscaling_group" "workers" {
       value               = tag.value
       propagate_at_launch = true
     }
-  }  
+  }
 
   lifecycle {
     ignore_changes = [target_group_arns]
