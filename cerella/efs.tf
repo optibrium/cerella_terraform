@@ -70,7 +70,7 @@ module "efs" {
   mount_targets              = {for k, v in data.aws_subnet.subnets : v.availability_zone => { subnet_id = v.id }}
   security_group_description = "EFS security group"
   security_group_name        = "efs-${var.cluster-name}-sg"
-  security_group_vpc_id      = var.vpc_id
+  security_group_vpc_id      = local.vpc_id
   security_group_rules       = {
     vpc = {
       # relying on the defaults provdied for EFS/NFS (2049/TCP + ingress)
