@@ -63,3 +63,7 @@ output "eks_cluster_name" {
   description = "EKS Cluster name"
   value       = try(aws_eks_cluster.environment.id, "")
 }
+
+output "cloudwatch_role_arn" {
+  value = module.cloudwatch_logs_iam_role.iam_role_arn
+}
