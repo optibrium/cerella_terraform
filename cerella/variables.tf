@@ -211,3 +211,7 @@ variable "cdd_token" {
 variable "create_secretsmanager" {
   default = false
 }
+
+variable "efs_enabled" {
+  default = false
+}
