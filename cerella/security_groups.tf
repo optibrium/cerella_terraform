@@ -16,7 +16,7 @@ resource "aws_security_group" "worker_nodes" {
   }
 
   tags = {
-    "Name"                                      = var.cluster-name
+    Name                                        = var.cluster-name
     "kubernetes.io/cluster/${var.cluster-name}" = "shared"
   }
 }
@@ -34,7 +34,7 @@ resource "aws_security_group" "control_plane" {
   }
 
   tags = {
-    "Name"                                      = var.cluster-name
+    Name                                        = var.cluster-name
     "kubernetes.io/cluster/${var.cluster-name}" = "shared"
   }
 }
@@ -52,7 +52,7 @@ resource "aws_security_group" "ingress" {
   }
 
   tags = {
-    "Name"                                      = var.cluster-name
+    Name                                        = var.cluster-name
     "kubernetes.io/cluster/${var.cluster-name}" = "shared"
   }
 }

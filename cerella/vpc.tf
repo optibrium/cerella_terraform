@@ -8,7 +8,7 @@ resource "aws_vpc" "environment" {
   cidr_block = var.cidr
 
   tags = {
-    "Name"                                      = var.cluster-name
+    Name                                        = var.cluster-name
     "kubernetes.io/cluster/${var.cluster-name}" = "shared"
   }
 }
@@ -20,7 +20,7 @@ resource "aws_subnet" "left" {
   vpc_id            = local.vpc_id
 
   tags = {
-    "Name"                                      = var.cluster-name
+    Name                                        = var.cluster-name
     "kubernetes.io/cluster/${var.cluster-name}" = "shared"
   }
 }
@@ -32,7 +32,7 @@ resource "aws_subnet" "right" {
   vpc_id            = local.vpc_id
 
   tags = {
-    "Name"                                      = var.cluster-name
+    Name                                        = var.cluster-name
     "kubernetes.io/cluster/${var.cluster-name}" = "shared"
   }
 }
@@ -42,7 +42,7 @@ resource "aws_internet_gateway" "environment" {
   vpc_id = local.vpc_id
 
   tags = {
-    "Name"                                      = var.cluster-name
+    Name                                        = var.cluster-name
     "kubernetes.io/cluster/${var.cluster-name}" = "shared"
   }
 }

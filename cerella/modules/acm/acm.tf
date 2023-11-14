@@ -9,7 +9,7 @@ resource "aws_acm_certificate" "star" {
   validation_method         = "DNS"
 
   tags = {
-    "Name" = var.cluster-name
+    Name = var.cluster-name
   }
 }
 
