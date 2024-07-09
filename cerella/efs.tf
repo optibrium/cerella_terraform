@@ -83,6 +83,7 @@ module "efs" {
   enable_backup_policy = true
 
   tags = {
+    Name           = "efs-${var.cluster-name}-sg"
     STATEFUL       = "true"
     BACKUP_ENABLED = "true"
   }
