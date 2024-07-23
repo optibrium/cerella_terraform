@@ -33,7 +33,7 @@ variable "enable_key_rotation" {
 }
 
 variable "tags" {
-  description = "(Optional) A mapping of tags to assign to the object."
-  type        = map(any)
+  description = "A map of tags to add to all resources."
+  type        = map(string)
   default     = {}
 }

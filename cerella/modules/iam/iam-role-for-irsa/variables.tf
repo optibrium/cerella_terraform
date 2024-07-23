@@ -23,7 +23,7 @@ variable "aws_account_id" {
 }
 
 variable "tags" {
-  description = "A map of tags to add to IAM role resources"
+  description = "A map of tags to add to all resources."
   type        = map(string)
   default     = {}
 }
